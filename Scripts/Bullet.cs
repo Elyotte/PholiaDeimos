@@ -1,10 +1,11 @@
 using Godot;
 using System;
+using System.Drawing.Design;
 
 public class Bullet : Area2D
 {
     [Export] float speed;
-    [Export] Vector2 direction;
+    [Export] public Vector2 direction;
     [Export] int damage;
 
     public override void _Ready()
@@ -20,6 +21,8 @@ public class Bullet : Area2D
     }
 
     public int GetDamage() => damage;
+    public void SetDamage(int pDamage) { damage = pDamage; }
+    public void SetSpeed(float pSpeed) { speed = pSpeed; }  
 
     protected void OnAreaEntered(Area2D pArea)
     {

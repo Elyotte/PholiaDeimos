@@ -4,11 +4,16 @@ using System;
 public class Player : LivingObject
 {
     [Export] float speed = 500f;
-    
-    LifeComponentCollision lifeComponent;
+    ShootComponent shootComponent;
+    [Export] NodePath ShootFactoryPath;
 
     public override void _Ready()
-    {       
+    {
+        if (ShootFactoryPath != null)
+        {
+            shootComponent = GetNode<ShootComponent>(ShootFactoryPath);
+        }
+
         base._Ready();
 
     }
@@ -20,7 +25,13 @@ public class Player : LivingObject
         Vector2 lInputPlayer = new Vector2(Input.GetAxis(INPUTS.LEFT,INPUTS.RIGHT),Input.GetAxis(INPUTS.UP, INPUTS.DOWN));
 
         GlobalPosition += lInputPlayer.Normalized() * speed * delta;
+
+        if (Input.IsActionJustPressed(INPUTS.FIRE))
+        {
+            shootComponent.Shoot(BulletContainer.instance, 200f, GlobalPosition + new Vector2(0, -200), Vector2.Up, 2);
+        }
     }
     
+
 }
 

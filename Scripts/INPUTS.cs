@@ -7,5 +7,5 @@ public static class INPUTS
     public const string DOWN = "down";
     public const string LEFT = "left";
     public const string RIGHT = "right";
-
+    public const string FIRE = "Fire";
 }
