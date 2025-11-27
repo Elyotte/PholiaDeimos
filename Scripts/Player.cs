@@ -5,11 +5,11 @@ public class Player : BorderCheck
 {
     [Export] float speed = 500f;
     [Export] NodePath collisionDamage;
-    LivingCollision areaDamage;
+    LifeComponentCollision areaDamage;
 
     public override void _Ready()
     {
-        areaDamage = GetNode<LivingCollision>(collisionDamage);
+        areaDamage = GetNode<LifeComponentCollision>(collisionDamage);
         base._Ready();
 
         // Connect events
