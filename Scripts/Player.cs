@@ -5,15 +5,15 @@ public class Player : BorderCheck
 {
     [Export] float speed = 500f;
     [Export] NodePath collisionDamage;
-    Area2D areaDamage;
+    LivingCollision areaDamage;
 
     public override void _Ready()
     {
-        areaDamage = GetNode<Area2D>(collisionDamage);
+        areaDamage = GetNode<LivingCollision>(collisionDamage);
         base._Ready();
 
         // Connect events
-        areaDamage.Connect(SignalNames.AREA_ENTERED, this, nameof(OnAreaEntered));
+        areaDamage.onNoMoreHealth += Dead;
     }
 
     public override void _Process(float delta)
@@ -26,19 +26,11 @@ public class Player : BorderCheck
 
 
     }
+    
+    public void Dead() {
 
-    protected void OnAreaEntered(Area2D pArea) {
-        if (pArea is Bullet lBullet)
-        {
-            GD.Print("I GOT DMAAGED");
-        }
+        Visible = false;
+
     }
-
-    public override void _ExitTree()
-    {
-        areaDamage.Disconnect(SignalNames.AREA_ENTERED,this,nameof(OnAreaEntered));
-        base._ExitTree();
-    }
-
 }
 

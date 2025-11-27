@@ -19,6 +19,8 @@ public class Bullet : Area2D
         GlobalPosition += direction.Normalized() * speed * delta;
     }
 
+    public int GetDamage() => damage;
+
     protected void OnAreaEntered(Area2D pArea)
     {
         QueueFree();
