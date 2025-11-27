@@ -1,19 +1,16 @@
 using Godot;
 using System;
 
-public class Player : BorderCheck
+public class Player : LivingObject
 {
     [Export] float speed = 500f;
-    [Export] NodePath collisionDamage;
-    LifeComponentCollision areaDamage;
+    
+    LifeComponentCollision lifeComponent;
 
     public override void _Ready()
-    {
-        areaDamage = GetNode<LifeComponentCollision>(collisionDamage);
+    {       
         base._Ready();
 
-        // Connect events
-        areaDamage.onNoMoreHealth += Dead;
     }
 
     public override void _Process(float delta)
@@ -23,14 +20,7 @@ public class Player : BorderCheck
         Vector2 lInputPlayer = new Vector2(Input.GetAxis(INPUTS.LEFT,INPUTS.RIGHT),Input.GetAxis(INPUTS.UP, INPUTS.DOWN));
 
         GlobalPosition += lInputPlayer.Normalized() * speed * delta;
-
-
     }
     
-    public void Dead() {
-
-        Visible = false;
-
-    }
 }
 

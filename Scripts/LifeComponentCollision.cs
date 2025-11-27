@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class LifeComponentCollision : Area2D
+public class LifeComponentCollision  : Area2D
 {
     [Export] int maxLife = 10;
     int currentLife;
