@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/LifeComponentCollision.cs" type="Script" id=1]
-[ext_resource path="res://SpriteFrame.tres" type="Texture" id=2]
+[ext_resource path="res://Assets/SpriteSheets/DeimosSpriteFrame.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://Scripts/Player.cs" type="Script" id=3]
 [ext_resource path="res://Scripts/ShootComponent.cs" type="Script" id=4]
 [ext_resource path="res://Prefabs/Bullet.tscn" type="PackedScene" id=5]
@@ -9,14 +9,16 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 22.0227
 
-[node name="Character" type="Node2D"]
+[node name="Deimos" type="Node2D"]
 position = Vector2( 250, 441 )
 script = ExtResource( 3 )
 collisionDamage = NodePath("Area2D")
 ShootFactoryPath = NodePath("BulletFactory")
 
-[node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 2 )
+[node name="Sprite" type="AnimatedSprite" parent="."]
+frames = ExtResource( 2 )
+frame = 1
+playing = true
 
 [node name="Area2D" type="Area2D" parent="."]
 script = ExtResource( 1 )

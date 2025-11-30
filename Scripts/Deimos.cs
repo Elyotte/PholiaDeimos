@@ -1,7 +1,10 @@
 using Godot;
 using System;
 
-public class Player : LivingObject
+/// <summary>
+/// Responsible to detect user input and execute logic
+/// </summary>
+public class Deimos : LivingObject
 {
     [Export] float speed = 500f;
     ShootComponent shootComponent;
@@ -28,7 +31,7 @@ public class Player : LivingObject
 
         if (Input.IsActionJustPressed(INPUTS.FIRE))
         {
-            shootComponent.Shoot(BulletContainer.instance, 200f, GlobalPosition + new Vector2(0, -200), Vector2.Up, 2);
+            shootComponent.Shoot(BulletContainer.instance, 200f, GlobalPosition + new Vector2(0, -100), Vector2.Up, 2);
         }
     }
     
