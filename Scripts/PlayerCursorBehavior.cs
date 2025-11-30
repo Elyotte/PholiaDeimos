@@ -4,32 +4,36 @@ using System;
 public class PlayerCursorBehavior : LivingObject
 {
     // Nodepath
-    [Export] NodePath cursorPath = "CursorComponent";
+    [Export] protected NodePath cursorPath = "CursorComponent";
+    const float MOUSE_DELTA_THRESHOLD = .5f;
 
-    public Vector2 moveInput { get; private set; }
-    private Cursor cursor;
+    // Dynamic 
+    protected Cursor m_cursor;
 
-    bool bUseMouse = false;
+    public bool isCursorEnabled { get; protected set; } = true;
+    public Vector2 moveInput { get; protected set; }
+    public bool bUseMouse { get; private set; } = false;
+    protected Vector2 m_lastFrameMousePos { get; private set; }
 
-    Vector2 lastFrameMousePos;
-    float deadzone = .5f;
 
     public override void _Ready()
     {
-        cursor = GetNode<Cursor>(cursorPath);
+        m_cursor = GetNode<Cursor>(cursorPath);
         base._Ready();
     }
 
     public override void _Process(float delta)
     {
-        SelectMoveMode();
-
         base._Process(delta);
+       
+        if (isCursorEnabled)
+        {
+            SelectMoveMode();
 
-        SelectMoveMode();
-        cursor.SetCursorFromOriginPosition(moveInput);
+            m_cursor.SetCursorFromOriginPosition(moveInput);
 
-        lastFrameMousePos = GetGlobalMousePosition();
+            m_lastFrameMousePos = GetGlobalMousePosition();
+        }
     }
 
     public void SelectMoveMode()
@@ -43,13 +47,13 @@ public class PlayerCursorBehavior : LivingObject
         else // when keyboard has been touched
         {
             // moving the mouse will exit the loop
-            bUseMouse = GetMouseDelta().Length() >= deadzone;
+            bUseMouse = GetMouseDelta().Length() >= MOUSE_DELTA_THRESHOLD;
             moveInput = KeyboardInputs();
 
         }
     }
 
-    public Vector2 GetMouseDelta() => lastFrameMousePos - GetGlobalMousePosition();
+    public Vector2 GetMouseDelta() => m_lastFrameMousePos - GetGlobalMousePosition();
 
     /// <summary>
     /// Compute mouse delta depending on previous mouse cursor position
