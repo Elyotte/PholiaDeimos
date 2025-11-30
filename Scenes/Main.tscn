@@ -21,6 +21,7 @@ radius = 19.4165
 [node name="Main" type="Node2D"]
 
 [node name="Character" parent="." instance=ExtResource( 1 )]
+speed = null
 
 [node name="Area2D" type="Area2D" parent="."]
 position = Vector2( 182, 60 )
@@ -68,10 +69,12 @@ script = ExtResource( 7 )
 position = Vector2( 567, 418 )
 script = ExtResource( 9 )
 collisionDamage = NodePath("Area2D")
+cursorPath = NodePath("Cursor")
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Pholia"]
 scale = Vector2( 0.8, 0.8 )
 frames = ExtResource( 8 )
+frame = 1
 playing = true
 
 [node name="Area2D" type="Area2D" parent="Pholia"]
@@ -79,3 +82,7 @@ script = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pholia/Area2D"]
 shape = SubResource( 4 )
+
+[node name="Cursor" type="Sprite" parent="Pholia"]
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 4 )
