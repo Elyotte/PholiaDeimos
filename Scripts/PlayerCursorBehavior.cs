@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Pholia : LivingObject
+public class PlayerCursorBehavior : LivingObject
 {
     // Nodepath
     [Export] NodePath cursorPath = "CursorComponent";
