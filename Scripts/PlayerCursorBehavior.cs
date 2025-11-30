@@ -6,7 +6,7 @@ public class PlayerCursorBehavior : LivingObject
     // Nodepath
     [Export] NodePath cursorPath = "CursorComponent";
 
-    private Vector2 moveInput;
+    public Vector2 moveInput { get; private set; }
     private Cursor cursor;
 
     bool bUseMouse = false;
@@ -34,15 +34,15 @@ public class PlayerCursorBehavior : LivingObject
 
     public void SelectMoveMode()
     {
-        // keyboard
-        if (bUseMouse)
+        if (bUseMouse) // when mouse is used
         {
-            // if keyboard inputs are detected then just pass to keyboard and hide cursor
+            // touching the keyboard will exit this condition
             bUseMouse = KeyboardInputs() == Vector2.Zero;
             moveInput = MouseInputs();
         }
-        else
+        else // when keyboard has been touched
         {
+            // moving the mouse will exit the loop
             bUseMouse = GetMouseDelta().Length() >= deadzone;
             moveInput = KeyboardInputs();
 
@@ -51,21 +51,19 @@ public class PlayerCursorBehavior : LivingObject
 
     public Vector2 GetMouseDelta() => lastFrameMousePos - GetGlobalMousePosition();
 
-    public Vector2 MouseInputs()
-    {
-        // Mouse Inputs detection
-        Vector2 lDirectionToCursor = (GetGlobalMousePosition() - GlobalPosition).Normalized();
+    /// <summary>
+    /// Compute mouse delta depending on previous mouse cursor position
+    /// To ensure this method works, verify that lastFrameMousePos is
+    /// correctly set in the class' _Process or _PhysicsProcess
+    /// </summary>
+    /// <returns></returns>
+    public Vector2 MouseInputs() => (GetGlobalMousePosition() - GlobalPosition).Normalized();
 
-        return lDirectionToCursor;
-    }
-
-    public Vector2 KeyboardInputs()
-    {
-        // Keyboard/gamepad inputs detections
-        Vector2 lAxis = new Vector2(
+    /// <summary>
+    /// Getter function to compute player input with gamepad axis
+    /// </summary>
+    /// <returns></returns>
+    public Vector2 KeyboardInputs() => new Vector2(
                                     Input.GetAxis(INPUTS.AIM_LEFT, INPUTS.AIM_RIGHT),
                                     Input.GetAxis(INPUTS.AIM_UP, INPUTS.AIM_DOWN));
-
-        return lAxis;
-    }
 }
