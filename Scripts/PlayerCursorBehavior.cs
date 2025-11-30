@@ -41,15 +41,14 @@ public class PlayerCursorBehavior : LivingObject
         if (bUseMouse) // when mouse is used
         {
             // touching the keyboard will exit this condition
-            bUseMouse = KeyboardInputs() == Vector2.Zero;
+            SetUseMouse(KeyboardInputs() == Vector2.Zero);
             moveInput = MouseInputs();
         }
         else // when keyboard has been touched
         {
             // moving the mouse will exit the loop
-            bUseMouse = GetMouseDelta().Length() >= MOUSE_DELTA_THRESHOLD;
+            SetUseMouse(GetMouseDelta().Length() >= MOUSE_DELTA_THRESHOLD);
             moveInput = KeyboardInputs();
-
         }
     }
 
@@ -70,4 +69,11 @@ public class PlayerCursorBehavior : LivingObject
     public Vector2 KeyboardInputs() => new Vector2(
                                     Input.GetAxis(INPUTS.AIM_LEFT, INPUTS.AIM_RIGHT),
                                     Input.GetAxis(INPUTS.AIM_UP, INPUTS.AIM_DOWN));
+
+    public void SetUseMouse(bool pBool)
+    {
+        if (bUseMouse == pBool) return; 
+        bUseMouse = pBool;
+        Input.MouseMode = pBool ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Hidden ;
+    }
 }
