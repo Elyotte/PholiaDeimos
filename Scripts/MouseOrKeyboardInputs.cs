@@ -8,7 +8,7 @@ public class MouseOrKeyboardInputs : LivingObject
     const float MOUSE_DELTA_THRESHOLD = .5f;
 
     public bool isCursorInputEnabled { get; protected set; } = true;
-    public Vector2 moveInput { get; protected set; }
+    public Vector2 aimInputAxis { get; protected set; }
     public bool bUseMouse { get; private set; } = false;
     protected Vector2 m_lastFrameMousePos { get; private set; }
 
@@ -36,13 +36,13 @@ public class MouseOrKeyboardInputs : LivingObject
         {
             // touching the keyboard will exit this condition
             SetUseMouse(KeyboardInputs() == Vector2.Zero);
-            moveInput = MouseInputs();
+            aimInputAxis = MouseInputs();
         }
         else // when keyboard has been touched
         {
             // moving the mouse will exit the loop
             SetUseMouse(GetMouseDelta().Length() >= MOUSE_DELTA_THRESHOLD);
-            moveInput = KeyboardInputs();
+            aimInputAxis = KeyboardInputs();
         }
     }
 

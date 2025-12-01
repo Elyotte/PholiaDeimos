@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/LifeComponentCollision.cs" type="Script" id=1]
 [ext_resource path="res://Assets/SpriteSheets/DeimosSpriteFrame.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://Scripts/Deimos.cs" type="Script" id=3]
 [ext_resource path="res://Scripts/ShootComponent.cs" type="Script" id=4]
 [ext_resource path="res://Prefabs/Bullet.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Prefabs/Components/CursorComponent.tscn" type="PackedScene" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 22.0227
@@ -13,9 +14,11 @@ radius = 22.0227
 script = ExtResource( 3 )
 collisionDamage = NodePath("Area2D")
 ShootFactoryPath = NodePath("BulletFactory")
+cursorPath = NodePath("CursorComponent")
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 frames = ExtResource( 2 )
+frame = 1
 playing = true
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -27,3 +30,6 @@ shape = SubResource( 1 )
 [node name="BulletFactory" type="Node" parent="."]
 script = ExtResource( 4 )
 bulletPrefab = ExtResource( 5 )
+
+[node name="CursorComponent" parent="." instance=ExtResource( 6 )]
+distanceToCursor = 270.0

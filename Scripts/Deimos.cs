@@ -6,16 +6,17 @@ using System;
 /// </summary>
 public class Deimos : MouseOrKeyboardInputs
 {
+    // nodepaths
+    [Export] NodePath ShootFactoryPath, cursorPath;
+
     [Export] float speed = 500f;
     ShootComponent shootComponent;
-    [Export] NodePath ShootFactoryPath;
+    Cursor cursorComponent;
 
     public override void _Ready()
     {
-        if (ShootFactoryPath != null)
-        {
-            shootComponent = GetNode<ShootComponent>(ShootFactoryPath);
-        }
+        shootComponent = GetNode<ShootComponent>(ShootFactoryPath);
+        cursorComponent = GetNode<Cursor>(cursorPath);
 
         base._Ready();
 
@@ -25,13 +26,17 @@ public class Deimos : MouseOrKeyboardInputs
     {
         base._Process(delta);
 
+        cursorComponent?.SetCursorDirection(aimInputAxis);
+
         Vector2 lInputPlayer = new Vector2(Input.GetAxis(INPUTS.LEFT,INPUTS.RIGHT),Input.GetAxis(INPUTS.UP, INPUTS.DOWN));
 
         GlobalPosition += lInputPlayer.Normalized() * speed * delta;
 
         if (Input.IsActionJustPressed(INPUTS.FIRE))
         {
-            shootComponent.Shoot(BulletContainer.instance, 200f, GlobalPosition + new Vector2(0, -100), Vector2.Up, 2);
+            // change hard coded value later
+            shootComponent.Shoot(BulletContainer.instance, 200f, cursorComponent.cursorGlobalPosition, 
+                cursorComponent.originToCursorDirection);
         }
     }
     
