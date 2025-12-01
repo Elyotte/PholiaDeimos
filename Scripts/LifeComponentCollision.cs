@@ -1,8 +1,10 @@
     using Godot;
 using System;
+using System.Threading.Tasks;
 
 public class LifeComponentCollision  : Area2D
 {
+    [Export] Node2D owner;
     [Export] int maxLife = 10;
     public int currentLife { get; private set; }
     public event Action onNoMoreHealth;
@@ -10,6 +12,7 @@ public class LifeComponentCollision  : Area2D
 
     public override void _Ready()
     {
+        owner = GetParent<Node2D>();
         Connect(SignalNames.AREA_ENTERED, this, nameof(OnAreaEntered));
         currentLife = maxLife;
     }
@@ -26,7 +29,15 @@ public class LifeComponentCollision  : Area2D
     {
         currentLife -= pAmount;
         onHealthChanged?.Invoke(currentLife);
+        DamageAnimation();
         IsAlive();
+    }
+
+    public async virtual void DamageAnimation()
+    {
+        owner.Modulate = Colors.Red;
+        await ToSignal(GetTree().CreateTimer(.3f), "timeout");
+        owner.Modulate = Colors.White;
     }
 
     private bool IsAlive()

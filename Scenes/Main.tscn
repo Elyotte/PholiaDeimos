@@ -38,7 +38,6 @@ polygon = PoolVector2Array( -8, -13, 15, -13, 11, 5, -10, 10 )
 [node name="Enemy" type="Node2D" parent="."]
 position = Vector2( 204, 145 )
 script = ExtResource( 6 )
-collisionDamage = NodePath("Area2D")
 
 [node name="Sprite" type="Sprite" parent="Enemy"]
 texture = ExtResource( 4 )
