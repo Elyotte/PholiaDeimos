@@ -14,10 +14,12 @@ radius = 22.0227
 script = ExtResource( 3 )
 ShootFactoryPath = NodePath("BulletFactory")
 cursorPath = NodePath("CursorComponent")
-lifePTH = NodePath("Area2D")
+lifePath = NodePath("Area2D")
+renderPath = NodePath("Sprite")
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 frames = ExtResource( 2 )
+frame = 1
 playing = true
 
 [node name="Area2D" type="Area2D" parent="."]

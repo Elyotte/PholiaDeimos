@@ -3,8 +3,6 @@ using System;
 
 public class MouseOrKeyboardInputs : BorderCheck
 {
-    // Nodepath
-    [Export] protected NodePath cursorPath = "CursorComponent";
     const float MOUSE_DELTA_THRESHOLD = .5f;
 
     public bool isCursorInputEnabled { get; protected set; } = true;

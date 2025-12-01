@@ -3,5 +3,8 @@ using System;
 
 public class Pholia : MouseOrKeyboardInputs
 {
-    
+    public override void _Ready()
+    {
+        base._Ready();
+    }
 }
