@@ -1,7 +1,8 @@
-using Godot;
 using System;
 using System.ComponentModel;
 using System.Drawing.Printing;
+using System.Reflection;
+using Godot;
 
 /// <summary>
 /// Responsible to detect user input and execute logic
@@ -12,6 +13,7 @@ public class Deimos : MouseOrKeyboardInputs
     [Category("Deimos' stats")]
     [Export] float speed = 500f;
     [Export] float reducedSpeed = 200f;
+    [Export] float distanceToMerge = 150;
 
     // nodepaths
     [Category("NodePath")]
@@ -26,6 +28,8 @@ public class Deimos : MouseOrKeyboardInputs
 
     // Statemachine
     public Action<float> CurrentState; // arg is delta time
+    public event Action onSplit;
+    public event Action onResplit;
 
     // AnimatedSprite anims names
     string A_Whole = "default";
@@ -82,17 +86,74 @@ public class Deimos : MouseOrKeyboardInputs
         }
     }
 
-    private void SetModeSplit()
+    private async void SetModeSplit()
     {
+        CurrentState = null;
         renderer.Play(A_Splited);
+        pholia.GlobalPosition = GlobalPosition;
+        pholia.Visible = true;
+
+        Vector2 finalPosDeimos = GlobalPosition - (aimInputAxis * 100f);
+        Vector2 finalPosPholia = GlobalPosition + (aimInputAxis * 100f);
+        float animationDuration = .3f;
+
+        SceneTreeTween tween = CreateTween();
+        tween.TweenProperty(this, "global_position", finalPosDeimos, animationDuration)
+            .SetTrans(Tween.TransitionType.Circ)
+            .SetEase(Tween.EaseType.Out);
+        tween.Parallel().TweenProperty(pholia, "global_position", finalPosPholia, animationDuration)
+            .SetTrans(Tween.TransitionType.Circ)
+            .SetEase(Tween.EaseType.Out);
+
+        await ToSignal(tween, "finished");
+
+
         CurrentState = SplittedMode;
-        CallPholia();
+        onSplit?.Invoke();
         cursorComponent.Visible = false;
     }
     private void SplittedMode(float delta)
     {
         Move(delta, reducedSpeed);
 
+        if (Input.IsActionPressed(INPUTS.SPLIT) && pholia.AskResplit)
+        {
+            GD.Print(DistanceBetweenDeimosAndPholia());
+
+            if (DistanceBetweenDeimosAndPholia() >= distanceToMerge) return;
+            
+            Resplit();
+            
+            return;
+        }
+    }
+
+    private float DistanceBetweenDeimosAndPholia() => (pholia.GlobalPosition - GlobalPosition).Length();
+
+    private async void Resplit()
+    {
+        CurrentState = null;
+        onResplit?.Invoke();
+
+        Vector2 deimosPos = GlobalPosition;
+        Vector2 pholiaPos = pholia.GlobalPosition;
+        Vector2 middle = new Vector2(Mathf.Lerp(deimosPos.x, pholiaPos.x, 0.5f), Mathf.Lerp(deimosPos.y,pholiaPos.y,0.5f));
+        float timeToMerge = .3f;
+
+        SceneTreeTween tween = CreateTween();
+        tween.TweenProperty(this, "global_position", middle, timeToMerge)
+            .SetTrans(Tween.TransitionType.Circ)
+            .SetEase(Tween.EaseType.Out);
+        tween.Parallel().TweenProperty(pholia, "global_position", middle, timeToMerge)
+            .SetTrans(Tween.TransitionType.Circ)
+            .SetEase(Tween.EaseType.Out);
+
+        tween.Play();
+        await ToSignal(tween, "finished");
+
+        pholia.Visible = false;
+        cursorComponent.Visible = true;
+        SetModeNormal();
     }
 
     private void Death()
@@ -101,9 +162,4 @@ public class Deimos : MouseOrKeyboardInputs
         CurrentState = null;
     }
 
-    private async void CallPholia()
-    {
-        pholia.Visible = true;
-        
-    }
 }
