@@ -26,13 +26,8 @@ public class Bullet : Area2D
 
     protected void OnAreaEntered(Area2D pArea)
     {
+        Disconnect(SignalNames.AREA_ENTERED, this, nameof(OnAreaEntered));
         QueueFree();
-    }
-
-    public override void _ExitTree()
-    {
-        Disconnect(SignalNames.AREA_ENTERED,this, nameof(OnAreaEntered));
-        base._ExitTree();
     }
 
 }
