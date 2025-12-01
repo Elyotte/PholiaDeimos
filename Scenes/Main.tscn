@@ -38,6 +38,7 @@ polygon = PoolVector2Array( -8, -13, 15, -13, 11, 5, -10, 10 )
 [node name="Enemy" type="Node2D" parent="."]
 position = Vector2( 204, 145 )
 script = ExtResource( 6 )
+lifeComponentPath = NodePath("Area2D")
 
 [node name="Sprite" type="Sprite" parent="Enemy"]
 texture = ExtResource( 4 )
@@ -66,7 +67,6 @@ position = Vector2( 567, 418 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Pholia"]
 scale = Vector2( 0.8, 0.8 )
 frames = ExtResource( 8 )
-frame = 1
 playing = true
 
 [node name="Area2D" type="Area2D" parent="Pholia"]

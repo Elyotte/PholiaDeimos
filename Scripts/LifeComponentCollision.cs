@@ -2,6 +2,12 @@
 using System;
 using System.Threading.Tasks;
 
+/// <summary>
+/// An area2D object that you attach to a parent node that you want to apply damage to.
+/// This class is responsible for storing life, managing damage and damage animation
+/// BUT NOT DEATH, when the component get to 0 HP an event is sent, it is the responsability
+/// to the parent to manage their own death, it ensure correct things happens
+/// </summary>
 public class LifeComponentCollision  : Area2D
 {
     [Export] Node2D owner;
