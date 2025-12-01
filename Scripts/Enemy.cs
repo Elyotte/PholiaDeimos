@@ -1,19 +1,20 @@
 using Godot;
 using System;
 
-public class Enemy : LivingObject
+public class Enemy : BorderCheck
 {
-    [Export] ShootComponent ShootComponent;
+    [Export] NodePath lifeComponentPath;
+    LifeComponentCollision lifeComponent;
+
     public override void _Ready()
     {
-
+        lifeComponent = GetNode<LifeComponentCollision>(lifeComponentPath);
         base._Ready();
+        lifeComponent.onNoMoreHealth += Death;
     }
 
-
-    public override void Dead()
+    private void Death()
     {
-
         QueueFree();
     }
 }

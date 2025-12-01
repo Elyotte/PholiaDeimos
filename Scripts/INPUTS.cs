@@ -13,4 +13,6 @@ public static class INPUTS
     public const string AIM_LEFT = "aimLeft";
     public const string AIM_RIGHT = "aimRight";
     public const string AIM_DOWN = "aimDown";
+
+    public const string SPLIT = "split";
 }
