@@ -1,43 +1,30 @@
 using Godot;
 using System;
 
+/// <summary>
+/// Used to apply damage to a life container instance
+/// </summary>
 public class LifeComponentCollision  : Area2D
 {
-    [Export] int maxLife = 10;
-    int currentLife;
-    public event Action onNoMoreHealth;
-    public event Action<int> onHealthChanged; // args is new health
+    public LifeContainer life;
 
     public override void _Ready()
     {
         Connect(SignalNames.AREA_ENTERED, this, nameof(OnAreaEntered));
-        currentLife = maxLife;
     }
 
     void OnAreaEntered(Area2D area)
     {
+        if (life ==null)
+        {
+            GD.PrintErr("No life container instance set", this);
+            return;
+        }
+
         if(area is Bullet pBullet)
         {
-             Damage(pBullet.GetDamage());
+             life.Damage(pBullet.GetDamage());
         }
     }
 
-    private void Damage(int pAmount)
-    {
-        currentLife -= pAmount;
-        onHealthChanged?.Invoke(currentLife);
-        IsAlive();
-    }
-
-    private bool IsAlive()
-    {
-        if (currentLife <= 0)
-        {
-            onNoMoreHealth?.Invoke();
-            return false;
-        }
-
-        currentLife = Mathf.Clamp(currentLife, 0, maxLife);
-        return true;
-    }
 }
