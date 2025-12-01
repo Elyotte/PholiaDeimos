@@ -10,14 +10,12 @@
 radius = 22.0227
 
 [node name="Deimos" type="Node2D"]
-position = Vector2( 250, 441 )
 script = ExtResource( 3 )
 collisionDamage = NodePath("Area2D")
 ShootFactoryPath = NodePath("BulletFactory")
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 frames = ExtResource( 2 )
-frame = 1
 playing = true
 
 [node name="Area2D" type="Area2D" parent="."]

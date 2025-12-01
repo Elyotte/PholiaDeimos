@@ -4,7 +4,7 @@ using System;
 /// <summary>
 /// Responsible to detect user input and execute logic
 /// </summary>
-public class Deimos : LivingObject
+public class Deimos : MouseOrKeyboardInputs
 {
     [Export] float speed = 500f;
     ShootComponent shootComponent;

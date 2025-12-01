@@ -1,16 +1,13 @@
 using Godot;
 using System;
 
-public class PlayerCursorBehavior : LivingObject
+public class MouseOrKeyboardInputs : LivingObject
 {
     // Nodepath
     [Export] protected NodePath cursorPath = "CursorComponent";
     const float MOUSE_DELTA_THRESHOLD = .5f;
 
-    // Dynamic 
-    protected Cursor m_cursor;
-
-    public bool isCursorEnabled { get; protected set; } = true;
+    public bool isCursorInputEnabled { get; protected set; } = true;
     public Vector2 moveInput { get; protected set; }
     public bool bUseMouse { get; private set; } = false;
     protected Vector2 m_lastFrameMousePos { get; private set; }
@@ -18,7 +15,6 @@ public class PlayerCursorBehavior : LivingObject
 
     public override void _Ready()
     {
-        m_cursor = GetNode<Cursor>(cursorPath);
         base._Ready();
     }
 
@@ -26,11 +22,9 @@ public class PlayerCursorBehavior : LivingObject
     {
         base._Process(delta);
        
-        if (isCursorEnabled)
+        if (isCursorInputEnabled)
         {
             SelectMoveMode();
-
-            m_cursor.SetCursorFromOriginPosition(moveInput);
 
             m_lastFrameMousePos = GetGlobalMousePosition();
         }
