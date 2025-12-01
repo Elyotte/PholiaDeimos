@@ -1,19 +1,12 @@
 using Godot;
 using System;
 
-public class Enemy : LivingObject
+public class Enemy : BorderCheck
 {
     [Export] ShootComponent ShootComponent;
     public override void _Ready()
     {
 
         base._Ready();
-    }
-
-
-    public override void Dead()
-    {
-
-        QueueFree();
     }
 }

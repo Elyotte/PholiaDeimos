@@ -67,10 +67,10 @@ position = Vector2( 567, 418 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Pholia"]
 scale = Vector2( 0.8, 0.8 )
 frames = ExtResource( 8 )
+frame = 1
 playing = true
 
 [node name="Area2D" type="Area2D" parent="Pholia"]
-script = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pholia/Area2D"]
 shape = SubResource( 4 )

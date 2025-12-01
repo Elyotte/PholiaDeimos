@@ -1,10 +1,10 @@
-using Godot;
+    using Godot;
 using System;
 
 public class LifeComponentCollision  : Area2D
 {
     [Export] int maxLife = 10;
-    int currentLife;
+    public int currentLife { get; private set; }
     public event Action onNoMoreHealth;
     public event Action<int> onHealthChanged; // args is new health
 
@@ -14,7 +14,7 @@ public class LifeComponentCollision  : Area2D
         currentLife = maxLife;
     }
 
-    void OnAreaEntered(Area2D area)
+    protected virtual void OnAreaEntered(Area2D area)
     {
         if(area is Bullet pBullet)
         {
@@ -22,7 +22,7 @@ public class LifeComponentCollision  : Area2D
         }
     }
 
-    private void Damage(int pAmount)
+    public virtual void Damage(int pAmount)
     {
         currentLife -= pAmount;
         onHealthChanged?.Invoke(currentLife);
@@ -39,5 +39,11 @@ public class LifeComponentCollision  : Area2D
 
         currentLife = Mathf.Clamp(currentLife, 0, maxLife);
         return true;
+    }
+
+    public override void _ExitTree()
+    {
+        Disconnect(SignalNames.AREA_ENTERED, this, nameof(OnAreaEntered));
+        base._ExitTree();
     }
 }

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class MouseOrKeyboardInputs : LivingObject
+public class MouseOrKeyboardInputs : BorderCheck
 {
     // Nodepath
     [Export] protected NodePath cursorPath = "CursorComponent";
