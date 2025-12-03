@@ -16,6 +16,7 @@ public class Pholia : MouseOrKeyboardInputs
         deimos.onResplit += SetModeDeactivated;
 
         base._Ready();
+        Visible = false;
         SetModeDeactivated();
     }
 

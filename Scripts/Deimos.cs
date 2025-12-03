@@ -11,11 +11,16 @@ public class Deimos : MouseOrKeyboardInputs
 {
     // Player stats
     [Category("Deimos' stats")]
-    [Export] float speed = 500f;
+    [Export] float speed = 300f;
     [Export] float reducedSpeed = 200f;
     [Export] float distanceToMerge = 150;
-    [Export] float fireRate = .45f;
 
+    [Category("Deimos' bullets")]
+    [Export] float bulletSpeed = 700f;
+    [Export] float fireRate = .45f;
+    float fireRateOppositeCoeff = .90f;
+    float matchingDirFireRateCoeffe = 1.1f;
+    
     // nodepaths
     [Category("NodePath")]
     [Export] NodePath ShootFactoryPath, cursorPath, lifePath, pholiaPath, renderPath;
@@ -38,6 +43,7 @@ public class Deimos : MouseOrKeyboardInputs
 
     // Dynamic variables
     float shootCooldown;
+    private Vector2 playerVel;
 
     public override void _Ready()
     {
@@ -63,7 +69,8 @@ public class Deimos : MouseOrKeyboardInputs
     private void Move(float delta, float dynamicSpeed)
     {
         Vector2 lInputPlayer = new Vector2(Input.GetAxis(INPUTS.LEFT, INPUTS.RIGHT), Input.GetAxis(INPUTS.UP, INPUTS.DOWN));
-        GlobalPosition += lInputPlayer.Normalized() * dynamicSpeed * delta;
+        playerVel = lInputPlayer.Normalized() * dynamicSpeed;
+        GlobalPosition += playerVel * delta;
     }
 
     private void SetModeNormal()
@@ -80,10 +87,20 @@ public class Deimos : MouseOrKeyboardInputs
 
         if (Input.IsActionPressed(INPUTS.FIRE) && shootCooldown <= 0)
         {
+            float dotSign = Mathf.Sign(playerVel.Normalized().Dot(cursorComponent.originToCursorDirection));
+
+
+            float lBulletSpeed = bulletSpeed;
+            Vector2 bulletVel = (cursorComponent.originToCursorDirection.Normalized() * lBulletSpeed);
+            
+            
             // change hard coded value later
-            shootComponent.Shoot(BulletContainer.instance, 200f, cursorComponent.cursorGlobalPosition,
-                cursorComponent.originToCursorDirection);
-            shootCooldown += fireRate;
+            shootComponent.Shoot(BulletContainer.instance, bulletVel, cursorComponent.cursorGlobalPosition);
+            if (dotSign > 0)
+                shootCooldown += fireRate * matchingDirFireRateCoeffe;
+            else if (dotSign < 0) 
+                shootCooldown += fireRate * fireRateOppositeCoeff;
+            else shootCooldown += fireRate;
         }
 
         else if (Input.IsActionJustPressed(INPUTS.SPLIT))
@@ -129,7 +146,7 @@ public class Deimos : MouseOrKeyboardInputs
             if (DistanceBetweenDeimosAndPholia() >= distanceToMerge) return;
             
             Resplit();
-            
+
             return;
         }
     }
@@ -159,6 +176,7 @@ public class Deimos : MouseOrKeyboardInputs
 
         pholia.Visible = false;
         cursorComponent.Visible = true;
+        shootCooldown += fireRate;
         SetModeNormal();
     }
 
