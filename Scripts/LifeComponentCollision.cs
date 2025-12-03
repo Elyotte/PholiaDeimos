@@ -15,6 +15,7 @@ public class LifeComponentCollision  : Area2D
     public int currentLife { get; private set; }
     public event Action onNoMoreHealth;
     public event Action<int> onHealthChanged; // args is new health
+    public event Action onDamage;
 
     public override void _Ready()
     {
@@ -41,9 +42,15 @@ public class LifeComponentCollision  : Area2D
 
     public async virtual void DamageAnimation()
     {
-        owner.Modulate = Colors.Red;
-        await ToSignal(GetTree().CreateTimer(.3f), "timeout");
-        owner.Modulate = Colors.White;
+        SceneTreeTween damageTween = CreateTween();
+        float lToRedTime = .2f;
+        float lToWhiteTime = .1f;
+        damageTween.TweenProperty(owner, "modulate", Colors.Red, lToRedTime)
+            .SetTrans(Tween.TransitionType.Bounce)
+            .SetEase(Tween.EaseType.InOut);
+        damageTween.TweenProperty(owner, "modulate", Colors.White, lToRedTime)
+            .SetEase(Tween.EaseType.InOut);
+        onDamage?.Invoke();
     }
 
     private bool IsAlive()

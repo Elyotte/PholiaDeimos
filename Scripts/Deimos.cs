@@ -105,7 +105,7 @@ public class Deimos : MouseOrKeyboardInputs
             .SetTrans(Tween.TransitionType.Circ)
             .SetEase(Tween.EaseType.Out);
 
-        await ToSignal(tween, "finished");
+        await ToSignal(tween, SignalNames.TWEEN_FINISHED);
 
 
         CurrentState = SplittedMode;
@@ -149,7 +149,7 @@ public class Deimos : MouseOrKeyboardInputs
             .SetEase(Tween.EaseType.Out);
 
         tween.Play();
-        await ToSignal(tween, "finished");
+        await ToSignal(tween, SignalNames.TWEEN_FINISHED);
 
         pholia.Visible = false;
         cursorComponent.Visible = true;
