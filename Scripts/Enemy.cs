@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 public class Enemy : BorderCheck
 {
-    [Export] NodePath lifeComponentPath, rendererPath;
+    [Export] protected float m_MoveSpeed = 200f;
+    [Export] NodePath lifeComponentPath = "Area2D", rendererPath = "Sprite";
     LifeComponentCollision lifeComponent;
     Sprite sprite;
 
-    protected Action m_CurrentState;
+    protected Action<float> m_CurrentState;
 
     public override void _Ready()
     {
@@ -22,7 +23,7 @@ public class Enemy : BorderCheck
     public override void _Process(float delta)
     {
         base._Process(delta);
-        m_CurrentState?.Invoke();
+        m_CurrentState?.Invoke(delta);
     }
 
     protected override void CheckBorders()
@@ -36,6 +37,8 @@ public class Enemy : BorderCheck
     private async void Death()
     {
         lifeComponent.DisconnectCollisions();
+        m_CurrentState = null;
+
         float deathScale = 1.3f;
         float inTime = .22f;
         SceneTreeTween tween = CreateTween();
