@@ -9,6 +9,7 @@ Made by Elott TAN in godot 3.5.2.
 30/11/2025 : 8h10 - 9h13 . *1h03m*
 01/12/2025 : 19h45 - 21h16 : *1h30m*
 	   : 22h30 - 23h : *30m*
+03/12/2025 : ~16h ~ 18h : *1h26m*
 
 
-TOTAL 4h03m
+TOTAL 5h29m
