@@ -14,6 +14,7 @@ public class Deimos : MouseOrKeyboardInputs
     [Export] float speed = 500f;
     [Export] float reducedSpeed = 200f;
     [Export] float distanceToMerge = 150;
+    [Export] float fireRate = .45f;
 
     // nodepaths
     [Category("NodePath")]
@@ -34,6 +35,9 @@ public class Deimos : MouseOrKeyboardInputs
     // AnimatedSprite anims names
     string A_Whole = "default";
     string A_Splited = "UnGhosted";
+
+    // Dynamic variables
+    float shootCooldown;
 
     public override void _Ready()
     {
@@ -72,15 +76,17 @@ public class Deimos : MouseOrKeyboardInputs
         cursorComponent?.SetCursorDirection(aimInputAxis);
 
         Move(delta, speed);
+        shootCooldown = Mathf.MoveToward(shootCooldown, 0f, delta);
 
-        if (Input.IsActionJustPressed(INPUTS.FIRE))
+        if (Input.IsActionPressed(INPUTS.FIRE) && shootCooldown <= 0)
         {
             // change hard coded value later
             shootComponent.Shoot(BulletContainer.instance, 200f, cursorComponent.cursorGlobalPosition,
                 cursorComponent.originToCursorDirection);
+            shootCooldown += fireRate;
         }
 
-        if (Input.IsActionJustPressed(INPUTS.SPLIT))
+        else if (Input.IsActionJustPressed(INPUTS.SPLIT))
         {
             SetModeSplit();
         }
