@@ -16,9 +16,9 @@ public class Deimos : MouseOrKeyboardInputs
     [Export] float distanceToMerge = 150;
 
     [Category("Deimos' bullets")]
-    [Export] float bulletSpeed = 700f;
-    [Export] float fireRate = .45f;
-    float fireRateOppositeCoeff = .90f;
+    [Export] float bulletSpeed = 1100f;
+    [Export] float fireRate = .2f;
+    float fireRateOppositeCoeff = .85f;
     float matchingDirFireRateCoeffe = 1.1f;
     
     // nodepaths
