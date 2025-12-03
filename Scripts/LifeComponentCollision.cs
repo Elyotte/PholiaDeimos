@@ -65,9 +65,17 @@ public class LifeComponentCollision  : Area2D
         return true;
     }
 
+    public void DisconnectCollisions() {
+        if (IsConnected(SignalNames.AREA_ENTERED, this, nameof(OnAreaEntered)))
+        {
+            Disconnect(SignalNames.AREA_ENTERED, this, nameof(OnAreaEntered));
+        }
+
+    }
+
     public override void _ExitTree()
     {
-        Disconnect(SignalNames.AREA_ENTERED, this, nameof(OnAreaEntered));
+        DisconnectCollisions();
         base._ExitTree();
     }
 }

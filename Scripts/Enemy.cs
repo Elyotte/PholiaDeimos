@@ -25,8 +25,17 @@ public class Enemy : BorderCheck
         m_CurrentState?.Invoke();
     }
 
+    protected override void CheckBorders()
+    {
+        if (IsOutOfBounds())
+        {
+            QueueFree();
+        }
+    }
+
     private async void Death()
     {
+        lifeComponent.DisconnectCollisions();
         float deathScale = 1.3f;
         float inTime = .22f;
         SceneTreeTween tween = CreateTween();

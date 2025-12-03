@@ -14,7 +14,12 @@ public class BorderCheck : Node2D
     public override void _Process(float delta)
     {
         base._Process(delta);
+        CheckBorders();
+       
+    }
 
+    protected virtual void CheckBorders()
+    {
         // Check horizontal borders
         if (GlobalPosition.x > screensize.x)
             GlobalPosition = new Vector2(screensize.x, GlobalPosition.y);
@@ -26,6 +31,14 @@ public class BorderCheck : Node2D
             GlobalPosition = new Vector2(GlobalPosition.x, screensize.y);
         else if (GlobalPosition.y < 0)
             GlobalPosition = new Vector2(GlobalPosition.x, 0);
+    }
+
+    protected bool IsOutOfBounds()
+    {
+        return GlobalPosition.x > screensize.x ||
+               GlobalPosition.x < 0 ||
+               GlobalPosition.y > screensize.y ||
+               GlobalPosition.y < 0;
     }
 
     protected void Init()
