@@ -5,12 +5,11 @@ public class ShootComponent : Node
 {
     [Export] public PackedScene bulletPrefab { get; private set; }
 
-    public Bullet Shoot(Node pContainer, float pSpeed, Vector2 pStartingPosition, Vector2 pDirection, int pDamage = 1)
+    public Bullet Shoot(Node pContainer, Vector2 pVelocity, Vector2 pStartingPosition, int pDamage = 1)
     {
         Bullet lBullet = bulletPrefab.Instance() as Bullet;
         lBullet.SetDamage(pDamage);
-        lBullet.direction = pDirection.Normalized(); // Force normalized value
-        lBullet.SetSpeed(pSpeed);
+        lBullet.SetSpeed(pVelocity);
 
         // Adding child to scene
         pContainer.AddChild(lBullet);

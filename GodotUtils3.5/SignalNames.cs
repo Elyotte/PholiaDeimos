@@ -8,4 +8,5 @@ public static class SignalNames
     public const string BODY_EXITED = "body_exited";
 
     public const string ANIMATION_FINISHED = "animation_finished";
+    public const string TWEEN_FINISHED = "finished";
 }

@@ -4,7 +4,7 @@ using System.Drawing.Design;
 
 public class Bullet : Area2D
 {
-    [Export] float speed;
+    [Export] Vector2 velocity;
     [Export] public Vector2 direction;
     [Export] int damage;
 
@@ -17,12 +17,12 @@ public class Bullet : Area2D
     public override void _Process(float delta)
     {
         base._Process(delta);
-        GlobalPosition += direction.Normalized() * speed * delta;
+        GlobalPosition += velocity * delta;
     }
 
     public int GetDamage() => damage;
     public void SetDamage(int pDamage) { damage = pDamage; }
-    public void SetSpeed(float pSpeed) { speed = pSpeed; }  
+    public void SetSpeed(Vector2 pVelocity) { velocity = pVelocity; }  
 
     protected void OnAreaEntered(Area2D pArea)
     {
