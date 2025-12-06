@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id=4]
 radius = 19.4165
 
-[node name="Pholia" type="Node2D"]
+[node name="Pholia" type="Node2D" groups=["Players"]]
 position = Vector2( 567, 418 )
 script = ExtResource( 2 )
 deimosPath = NodePath("../Deimos")

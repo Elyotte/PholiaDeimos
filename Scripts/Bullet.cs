@@ -7,6 +7,7 @@ public class Bullet : Area2D
     [Export] Vector2 velocity;
     [Export] public Vector2 direction;
     [Export] int damage;
+    [Export] string GroupName;
 
     public override void _Ready()
     {
@@ -26,8 +27,13 @@ public class Bullet : Area2D
 
     protected void OnAreaEntered(Area2D pArea)
     {
-        Disconnect(SignalNames.AREA_ENTERED, this, nameof(OnAreaEntered));
-        QueueFree();
+        if (pArea is LifeComponentCollision pLife && pArea.IsInGroup(GroupName))
+        {
+            GD.Print("Group found");
+            Disconnect(SignalNames.AREA_ENTERED, this, nameof(OnAreaEntered));
+            QueueFree();
+        }
+        
     }
 
 }

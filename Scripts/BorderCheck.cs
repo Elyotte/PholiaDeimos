@@ -41,8 +41,8 @@ public class BorderCheck : Node2D
         int XAxis = GlobalPosition.x <= 0 ? -1 : 0;
         XAxis = GlobalPosition.x >= screensize.x ? 1 : 0;
 
-        int YAxis = GlobalPosition.y > 0 ? -1 : 0;
-        YAxis = GlobalPosition.y <= 0 ? 1 : 0;
+        int YAxis = GlobalPosition.y <= 0 ? -1 : 0;
+        YAxis = GlobalPosition.y >= screensize.y ? 1 : 0;
 
         BoundOut = new Vector2(XAxis, YAxis);
         
