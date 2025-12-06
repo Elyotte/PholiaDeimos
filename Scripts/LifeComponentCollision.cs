@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 /// This class is responsible for storing life, managing damage and damage animation
 /// BUT NOT DEATH, when the component get to 0 HP an event is sent, it is the responsability
 /// to the parent to manage their own death, it ensure correct things happens
+/// 
+/// WARNING : The parent of this node should be the living object you want implement health
+///  to
 /// </summary>
 public class LifeComponentCollision  : Area2D
 {
@@ -29,6 +32,19 @@ public class LifeComponentCollision  : Area2D
         if(area is Bullet pBullet)
         {
              Damage(pBullet.GetDamage());
+        }
+        else if (area is LifeComponentCollision other)
+        {
+            // Deomos is damaged by the enemies he touch
+            if (other.GetParent() is Enemy && GetParent() is Deimos)
+            {
+                Damage(1);
+            }
+            // Pholia damage the enemies she touch
+            else if (other.GetParent() is Enemy && GetParent() is Pholia)
+            {
+                other.Damage(1);
+            }
         }
     }
 
