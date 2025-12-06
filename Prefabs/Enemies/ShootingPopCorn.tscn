@@ -10,8 +10,10 @@
 radius = 31.3209
 
 [node name="Enemy2" type="Node2D"]
-position = Vector2( 204, 145 )
+position = Vector2( 199, 216 )
 script = ExtResource( 5 )
+fireRate = 0.85
+shootSpeed = 400.0
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 4 )
@@ -26,6 +28,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
+maxLife = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 3 )

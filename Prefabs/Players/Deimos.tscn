@@ -1,24 +1,24 @@
 [gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/LifeComponentCollision.cs" type="Script" id=1]
-[ext_resource path="res://Assets/SpriteSheets/DeimosSpriteFrame.tres" type="SpriteFrames" id=2]
-[ext_resource path="res://Scripts/Deimos.cs" type="Script" id=3]
-[ext_resource path="res://Scripts/ShootComponent.cs" type="Script" id=4]
-[ext_resource path="res://Prefabs/Bullets/PlayerBullet.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Prefabs/Components/CursorComponent.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scripts/Deimos.cs" type="Script" id=2]
+[ext_resource path="res://Scripts/ShootComponent.cs" type="Script" id=3]
+[ext_resource path="res://Prefabs/Bullets/PlayerBullet.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Prefabs/Components/CursorComponent.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/SpriteSheets/DeimosSpriteFrame.tres" type="SpriteFrames" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 22.0227
 
 [node name="Deimos" type="Node2D" groups=["Players"]]
-script = ExtResource( 3 )
+script = ExtResource( 2 )
 ShootFactoryPath = NodePath("BulletFactory")
 cursorPath = NodePath("CursorComponent")
 lifePath = NodePath("Area2D")
 renderPath = NodePath("Sprite")
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
-frames = ExtResource( 2 )
+frames = ExtResource( 6 )
 playing = true
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -29,8 +29,8 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="BulletFactory" type="Node" parent="."]
-script = ExtResource( 4 )
-bulletPrefab = ExtResource( 5 )
+script = ExtResource( 3 )
+bulletPrefab = ExtResource( 4 )
 
-[node name="CursorComponent" parent="." instance=ExtResource( 6 )]
+[node name="CursorComponent" parent="." instance=ExtResource( 5 )]
 distanceToCursor = 270.0
