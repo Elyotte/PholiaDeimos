@@ -29,6 +29,11 @@ public class Bullet : Area2D
     {
         if (pArea is LifeComponentCollision pLife)
         {
+            if (pLife.GetParent() is Deimos lDeimos && lDeimos.playerState == PlayerState.Splitted)
+            {
+                // Ignore if deimos is in split state
+                return;
+            }
             Disconnect(SignalNames.AREA_ENTERED, this, nameof(OnAreaEntered));
             QueueFree();
         }

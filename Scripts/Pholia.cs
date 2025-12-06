@@ -3,14 +3,18 @@ using System;
 
 public class Pholia : MouseOrKeyboardInputs
 {
-    [Export] NodePath deimosPath;
+    [Export] NodePath deimosPath, hpCollisionPath;
     [Export] float moveSpeed = 500f;
     Deimos deimos;
+    CollisionShape2D collision;
     Action<float> currentAction;
     public bool AskResplit { get; private set; } = false;
 
+    
+
     public override void _Ready()
     {
+        collision = GetNode<CollisionShape2D>(hpCollisionPath);
         deimos = GetNode<Deimos>(deimosPath);
         deimos.onSplit += SetModeMove;
         deimos.onResplit += SetModeDeactivated;
@@ -29,10 +33,12 @@ public class Pholia : MouseOrKeyboardInputs
     private void SetModeDeactivated() { 
         currentAction = null; 
         AskResplit = false;
+        collision.Disabled = true;
     }
 
     private void SetModeMove()
     {
+        collision.Disabled = false;
         currentAction = Move;
     }
     private void Move(float delta)

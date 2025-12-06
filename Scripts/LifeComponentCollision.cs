@@ -31,12 +31,18 @@ public class LifeComponentCollision  : Area2D
     {
         if(area is Bullet pBullet)
         {
-             Damage(pBullet.GetDamage());
+            if (GetParent() is Deimos lDeimos && lDeimos.playerState == PlayerState.Splitted)
+            {
+                 
+            }
+            else
+                Damage(pBullet.GetDamage());
         }
+        // Happen when two life component collides
         else if (area is LifeComponentCollision other)
         {
-            // Deomos is damaged by the enemies he touch
-            if (other.GetParent() is Enemy && GetParent() is Deimos)
+            // Deomos is damaged by the enemies he touch in normal state only
+            if (other.GetParent() is Enemy && GetParent() is Deimos lDeimos)
             {
                 Damage(1);
             }

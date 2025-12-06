@@ -9,4 +9,8 @@ public static class SignalNames
 
     public const string ANIMATION_FINISHED = "animation_finished";
     public const string TWEEN_FINISHED = "finished";
+
+    public const string IDLE_FRAME = "idle_frame";
+
+    public const string FRAME_CHANGED = "frame_changed";
 }

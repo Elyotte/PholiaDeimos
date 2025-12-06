@@ -1,32 +1,41 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Scripts/Deimos.cs" type="Script" id=1]
-[ext_resource path="res://Scripts/Portraits.cs" type="Script" id=2]
-[ext_resource path="res://Scripts/Pholia.cs" type="Script" id=3]
+[ext_resource path="res://Assets/SpriteSheets/Hands.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://Prefabs/HandsAnimation.cs" type="Script" id=2]
+[ext_resource path="res://Sounds/SFX/CLAP.ogg" type="AudioStream" id=3]
 [ext_resource path="res://Prefabs/UI/Portrait.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Prefabs/Players/Pholia.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Prefabs/Players/Deimos.tscn" type="PackedScene" id=6]
 
 [node name="PholiaDeimos" type="Node"]
 
-[node name="Pholia" type="Node2D" parent="." groups=["Players"] instance=ExtResource( 5 )]
-position = Vector2( 567, 418 )
-script = ExtResource( 3 )
-deimosPath = NodePath("../Deimos")
+[node name="Pholia" parent="." instance=ExtResource( 5 )]
+hpCollisionPath = NodePath("Area2D/CollisionShape2D")
 
-[node name="Deimos" type="Node2D" parent="." groups=["Players"] instance=ExtResource( 6 )]
+[node name="Area2D" parent="Pholia" index="1"]
+maxLife = 11
+lifeComponentToApplyDamagePath = NodePath("../../Deimos/Area2D")
+
+[node name="Deimos" parent="." instance=ExtResource( 6 )]
 position = Vector2( 308, 410 )
-script = ExtResource( 1 )
-ShootFactoryPath = NodePath("BulletFactory")
-cursorPath = NodePath("CursorComponent")
-lifePath = NodePath("Area2D")
 pholiaPath = NodePath("../Pholia")
-renderPath = NodePath("Sprite")
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
+position = Vector2( 308, 410 )
+scale = Vector2( 0.4, 0.4 )
+frames = ExtResource( 1 )
+frame = 8
+script = ExtResource( 2 )
+deimos = NodePath("../Deimos")
+sfxsoundsource = NodePath("AudioStreamPlayer")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="AnimatedSprite2"]
+stream = ExtResource( 3 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Portraits" type="Control" parent="CanvasLayer" instance=ExtResource( 4 )]
-anchor_right = 1.0
-anchor_bottom = 1.0
-script = ExtResource( 2 )
+[node name="Portraits" parent="CanvasLayer" instance=ExtResource( 4 )]
 playerPath = NodePath("../../Deimos")
+
+[editable path="Pholia"]
+[editable path="Deimos"]
