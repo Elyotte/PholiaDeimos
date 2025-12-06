@@ -45,6 +45,8 @@ public class Deimos : MouseOrKeyboardInputs
     float shootCooldown;
     private Vector2 playerVel;
 
+    public PlayerState playerState { get; private set; }
+
     public override void _Ready()
     {
         shootComponent = GetNode<ShootComponent>(ShootFactoryPath);
@@ -76,6 +78,7 @@ public class Deimos : MouseOrKeyboardInputs
     private void SetModeNormal()
     {
         CurrentState = NormalMode;
+        playerState = PlayerState.Normal;
     }
     private void NormalMode(float delta)
     {
@@ -111,6 +114,7 @@ public class Deimos : MouseOrKeyboardInputs
 
     private async void SetModeSplit()
     {
+        playerState = PlayerState.InTransition;
         CurrentState = null;
         renderer.Play(A_Splited);
         pholia.GlobalPosition = GlobalPosition;
@@ -134,6 +138,7 @@ public class Deimos : MouseOrKeyboardInputs
         CurrentState = SplittedMode;
         onSplit?.Invoke();
         cursorComponent.Visible = false;
+        playerState = PlayerState.Splitted;
     }
     private void SplittedMode(float delta)
     {
@@ -155,6 +160,7 @@ public class Deimos : MouseOrKeyboardInputs
 
     private async void Resplit()
     {
+        playerState = PlayerState.InTransition;
         CurrentState = null;
         onResplit?.Invoke();
 
@@ -186,4 +192,11 @@ public class Deimos : MouseOrKeyboardInputs
         CurrentState = null;
     }
 
+}
+
+public enum PlayerState
+{
+    Normal,
+    Splitted,
+    InTransition
 }
