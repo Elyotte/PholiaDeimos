@@ -27,9 +27,8 @@ public class Bullet : Area2D
 
     protected void OnAreaEntered(Area2D pArea)
     {
-        if (pArea is LifeComponentCollision pLife && pArea.IsInGroup(GroupName))
+        if (pArea is LifeComponentCollision pLife)
         {
-            GD.Print("Group found");
             Disconnect(SignalNames.AREA_ENTERED, this, nameof(OnAreaEntered));
             QueueFree();
         }
