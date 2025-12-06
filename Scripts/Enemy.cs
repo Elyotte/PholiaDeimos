@@ -28,9 +28,14 @@ public class Enemy : BorderCheck
 
     protected override void CheckBorders()
     {
-        if (IsOutOfBounds())
+        Vector2 lBound;
+        if (IsOutOfBounds(out lBound))
         {
-            QueueFree();
+            // Only destroy the enemy when the out of bounds is in the lower vertical part of the screen
+            if (lBound.y == 1)
+            {
+                QueueFree();
+            }
         }
     }
 

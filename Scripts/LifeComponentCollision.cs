@@ -19,7 +19,7 @@ public class LifeComponentCollision  : Area2D
 
     public override void _Ready()
     {
-        owner = GetParent<Node2D>();
+        if (owner == null) owner = GetParent<Node2D>();
         Connect(SignalNames.AREA_ENTERED, this, nameof(OnAreaEntered));
         currentLife = maxLife;
     }

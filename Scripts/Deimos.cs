@@ -146,8 +146,6 @@ public class Deimos : MouseOrKeyboardInputs
 
         if (Input.IsActionPressed(INPUTS.SPLIT) && pholia.AskResplit)
         {
-            GD.Print(DistanceBetweenDeimosAndPholia());
-
             if (DistanceBetweenDeimosAndPholia() >= distanceToMerge) return;
             
             Resplit();

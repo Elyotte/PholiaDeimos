@@ -33,12 +33,20 @@ public class BorderCheck : Node2D
             GlobalPosition = new Vector2(GlobalPosition.x, 0);
     }
 
-    protected bool IsOutOfBounds()
+    protected bool IsOutOfBounds(out Vector2 BoundOut)
     {
-        return GlobalPosition.x > screensize.x ||
-               GlobalPosition.x < 0 ||
-               GlobalPosition.y > screensize.y ||
-               GlobalPosition.y < 0;
+        BoundOut = GlobalPosition;
+
+        // axis out of bounds computation
+        int XAxis = GlobalPosition.x <= 0 ? -1 : 0;
+        XAxis = GlobalPosition.x >= screensize.x ? 1 : 0;
+
+        int YAxis = GlobalPosition.y > 0 ? -1 : 0;
+        YAxis = GlobalPosition.y <= 0 ? 1 : 0;
+
+        BoundOut = new Vector2(XAxis, YAxis);
+        
+        return BoundOut.x != 0 || BoundOut.y != 0;
     }
 
     protected void Init()
