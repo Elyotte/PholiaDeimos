@@ -13,14 +13,28 @@ public class ScoreHud : Control
     {
         scoreLabel = GetNode<Label>(scoreTextPath);
         Hide();
-        if (GameManager.Instance == null) return; 
+        UpdateScoreLabel(0);
+        CallDeferred(nameof(Start));
+    }
+
+    public void Start()
+    {
+        if (GameManager.Instance == null) return;
         GameManager.onScoreUpdate += UpdateScoreLabel;
         GameManager.onGameStart += Show;
         GameManager.onGameStop += Hide;
     }
 
-    public void UpdateScoreLabel(int pNewScore)
+    public void UpdateScoreLabel(int pNewScore =0)
     {
-        scoreLabel.Text = scoreText + pNewScore;
+        scoreLabel.Text = scoreText + pNewScore.ToString();
+    }
+
+    public override void _ExitTree()
+    {
+        GameManager.onScoreUpdate -= UpdateScoreLabel;
+        GameManager.onGameStart -= Show;    
+        GameManager.onGameStop -= Hide;
+        base._ExitTree();
     }
 }

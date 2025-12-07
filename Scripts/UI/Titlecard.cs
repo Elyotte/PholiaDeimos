@@ -4,7 +4,6 @@ using System;
 public class Titlecard : Control
 {
     [Export] NodePath buttonPath;
-
     Button button;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -17,5 +16,11 @@ public class Titlecard : Control
     {
         GameManager.Instance?.StartGame();
         Hide();
+    }
+
+    public override void _ExitTree()
+    {
+        button.Disconnect(SignalNames.BUTTON_CLICKED,this,nameof(OnStartGameClicked));
+        base._ExitTree();
     }
 }
