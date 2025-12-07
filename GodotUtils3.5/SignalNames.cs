@@ -13,4 +13,6 @@ public static class SignalNames
     public const string IDLE_FRAME = "idle_frame";
 
     public const string FRAME_CHANGED = "frame_changed";
+
+    public const string BUTTON_CLICKED = "button_down";
 }

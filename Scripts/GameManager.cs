@@ -29,7 +29,6 @@ public class GameManager : Node2D {
             Instance = this;
             _Deimos = GetNode<Deimos>(deimosPath);
             _BulletContainer = GetNode<Node2D>(bulletContainerPath);
-            
         }
         else CallDeferred(nameof(Clear));
     }
@@ -43,11 +42,13 @@ public class GameManager : Node2D {
     public void StartGame()
     {
         Score = 0;
+        if(_Deimos !=null) _Deimos.life.onNoMoreHealth += StopGame;
         onGameStart?.Invoke();
     }
 
     public void StopGame()
     {
+        if (_Deimos != null) _Deimos.life.onNoMoreHealth -= StopGame;
         onGameStop?.Invoke();
     }
 

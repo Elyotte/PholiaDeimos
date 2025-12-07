@@ -12,7 +12,11 @@ public class ScoreHud : Control
     public override void _Ready()
     {
         scoreLabel = GetNode<Label>(scoreTextPath);
+        Hide();
+        if (GameManager.Instance == null) return; 
         GameManager.onScoreUpdate += UpdateScoreLabel;
+        GameManager.onGameStart += Show;
+        GameManager.onGameStop += Hide;
     }
 
     public void UpdateScoreLabel(int pNewScore)
