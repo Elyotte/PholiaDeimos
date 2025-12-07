@@ -26,9 +26,9 @@ public class Deimos : MouseOrKeyboardInputs
     [Export] NodePath ShootFactoryPath, cursorPath, lifePath, pholiaPath, renderPath;
 
     // Component
+    public LifeComponentCollision life { get; private set; }
     ShootComponent shootComponent;
     Cursor cursorComponent;
-    LifeComponentCollision life;
     AnimatedSprite renderer;
     Pholia pholia;
 
@@ -61,7 +61,17 @@ public class Deimos : MouseOrKeyboardInputs
 
         life.onNoMoreHealth += Death;
 
-        SetModeNormal();
+        CallDeferred(nameof(Awake));
+    }
+
+    void Awake()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.onGameStart += SetModeNormal;
+        }
+        else
+            SetModeNormal();
     }
 
     public override void _Process(float delta)
@@ -94,12 +104,10 @@ public class Deimos : MouseOrKeyboardInputs
         {
             float dotSign = Mathf.Sign(playerVel.Normalized().Dot(cursorComponent.originToCursorDirection));
 
-
             float lBulletSpeed = bulletSpeed;
             Vector2 bulletVel = (cursorComponent.originToCursorDirection.Normalized() * lBulletSpeed);
-
             if (bulletVel == Vector2.Zero)
-                bulletVel = Vector2.Up;
+                bulletVel = Vector2.Up * lBulletSpeed;
             
             // change hard coded value later
             shootComponent.Shoot(GameManager.bulletContainer, bulletVel, cursorComponent.cursorGlobalPosition);
