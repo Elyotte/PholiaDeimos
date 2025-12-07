@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 public class Enemy : BorderCheck
 {
+    [Export] protected int m_ScoreOnDeath = 10;
     [Export] protected float m_MoveSpeed = 200f;
     [Export] NodePath lifeComponentPath = "Area2D", rendererPath = "Sprite";
     LifeComponentCollision lifeComponent;
@@ -42,6 +43,9 @@ public class Enemy : BorderCheck
     private async void Death()
     {
         lifeComponent.DisconnectCollisions();
+
+        GameManager.Instance?.AddScore(m_ScoreOnDeath);
+
         m_CurrentState = null;
 
         float deathScale = 1.3f;

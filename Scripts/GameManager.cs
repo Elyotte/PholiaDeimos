@@ -2,10 +2,11 @@ using Godot;
 using System;
 using System.Data;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 public class GameManager : Node2D {
 
-    [Export] NodePath deimosPath, bulletContainerPath;
+    [Export] NodePath deimosPath, bulletContainerPath, labelpath;
 
     public static Node2D bulletContainer => Instance?._BulletContainer;
     public static Deimos deimos => Instance?._Deimos;
@@ -19,6 +20,7 @@ public class GameManager : Node2D {
     public static GameManager Instance { get; private set; }
     public static Action onGameStart;
     public static Action onGameStop;
+    public static Action<int> onScoreUpdate;
 
     public override void _Ready()
     {
@@ -27,14 +29,15 @@ public class GameManager : Node2D {
             Instance = this;
             _Deimos = GetNode<Deimos>(deimosPath);
             _BulletContainer = GetNode<Node2D>(bulletContainerPath);
+            
         }
         else CallDeferred(nameof(Clear));
     }
-
-    public override void _Process(float delta)
+    
+    public void AddScore(int pAmount)
     {
-
-        GD.Print(_Deimos);
+        Score += pAmount;
+        onScoreUpdate?.Invoke(Score);
     }
 
     public void StartGame()
