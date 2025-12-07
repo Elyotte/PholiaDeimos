@@ -98,7 +98,7 @@ public class Deimos : MouseOrKeyboardInputs
             
             
             // change hard coded value later
-            shootComponent.Shoot(BulletContainer.instance, bulletVel, cursorComponent.cursorGlobalPosition);
+            shootComponent.Shoot(GameManager.bulletContainer, bulletVel, cursorComponent.cursorGlobalPosition);
             if (dotSign > 0)
                 shootCooldown += fireRate * matchingDirFireRateCoeffe;
             else if (dotSign < 0) 

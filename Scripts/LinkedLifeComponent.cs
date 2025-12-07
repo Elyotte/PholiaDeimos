@@ -5,6 +5,7 @@ public class LinkedLifeComponent : LifeComponentCollision
 {
     [Export] NodePath lifeComponentToApplyDamagePath;
     LifeComponentCollision LifeComponentToApplyDamage;
+    
 
     public override void _Ready()
     {

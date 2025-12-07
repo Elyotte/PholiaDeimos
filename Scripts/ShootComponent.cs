@@ -7,6 +7,9 @@ public class ShootComponent : Node
 
     public Bullet Shoot(Node pContainer, Vector2 pVelocity, Vector2 pStartingPosition, int pDamage = 1)
     {
+        if (pContainer == null)
+            pContainer = GetTree().CurrentScene;
+
         Bullet lBullet = bulletPrefab.Instance() as Bullet;
         lBullet.SetDamage(pDamage);
         lBullet.SetSpeed(pVelocity);
