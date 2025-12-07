@@ -9,7 +9,7 @@ public class MouseOrKeyboardInputs : BorderCheck
     public Vector2 aimInputAxis { get; protected set; }
     public bool bUseMouse { get; private set; } = false;
     protected Vector2 m_lastFrameMousePos { get; private set; }
-
+    protected bool m_AxisReturnToZero = true;
 
     public override void _Ready()
     {
@@ -40,6 +40,10 @@ public class MouseOrKeyboardInputs : BorderCheck
         {
             // moving the mouse will exit the loop
             SetUseMouse(GetMouseDelta().Length() >= MOUSE_DELTA_THRESHOLD);
+
+            if (KeyboardInputs() == Vector2.Zero && !m_AxisReturnToZero) 
+                return; 
+
             aimInputAxis = KeyboardInputs();
         }
     }

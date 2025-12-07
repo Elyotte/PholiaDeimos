@@ -49,6 +49,8 @@ public class Deimos : MouseOrKeyboardInputs
 
     public override void _Ready()
     {
+        m_AxisReturnToZero = false;
+
         shootComponent = GetNode<ShootComponent>(ShootFactoryPath);
         cursorComponent = GetNode<Cursor>(cursorPath);
         life = GetNode<LifeComponentCollision>(lifePath);
@@ -95,7 +97,9 @@ public class Deimos : MouseOrKeyboardInputs
 
             float lBulletSpeed = bulletSpeed;
             Vector2 bulletVel = (cursorComponent.originToCursorDirection.Normalized() * lBulletSpeed);
-            
+
+            if (bulletVel == Vector2.Zero)
+                bulletVel = Vector2.Up;
             
             // change hard coded value later
             shootComponent.Shoot(GameManager.bulletContainer, bulletVel, cursorComponent.cursorGlobalPosition);

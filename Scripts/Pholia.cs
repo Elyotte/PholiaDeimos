@@ -10,8 +10,6 @@ public class Pholia : MouseOrKeyboardInputs
     Action<float> currentAction;
     public bool AskResplit { get; private set; } = false;
 
-    
-
     public override void _Ready()
     {
         collision = GetNode<CollisionShape2D>(hpCollisionPath);
