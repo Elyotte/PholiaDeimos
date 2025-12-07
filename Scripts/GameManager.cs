@@ -6,13 +6,15 @@ using System.Runtime.InteropServices;
 
 public class GameManager : Node2D {
 
-    [Export] NodePath deimosPath, bulletContainerPath, labelpath;
-
+    [Export] NodePath deimosPath, bulletContainerPath, musicPath;
     public static Node2D bulletContainer => Instance?._BulletContainer;
     public static Deimos deimos => Instance?._Deimos;
+    
 
     private Node2D _BulletContainer;
     private Deimos _Deimos;
+    private musicPlayer _musicPlayer;
+
     public void SetDeimos(Deimos pDeimos) => _Deimos = pDeimos;
 
     public int Score { get; private set; } = 0;
@@ -26,7 +28,9 @@ public class GameManager : Node2D {
     {
         if (Instance == null)
         {
+            GD.Print("new instance");
             Instance = this;
+            _musicPlayer = GetNode<musicPlayer>(musicPath);
             _Deimos = GetNode<Deimos>(deimosPath);
             _BulletContainer = GetNode<Node2D>(bulletContainerPath);
         }
@@ -48,10 +52,19 @@ public class GameManager : Node2D {
 
     public void StopGame()
     {
+        if (_musicPlayer != null) _musicPlayer.onMusicStoped += ShowGameOver;
+        else GD.PrintErr("No music stopped detected");
         if (_Deimos != null) _Deimos.life.onNoMoreHealth -= StopGame;
+        else GD.PrintErr("No Deimos detected");
+            
         onGameStop?.Invoke();
     }
 
+    public void ShowGameOver()
+    {
+        _musicPlayer.onMusicStoped -= ShowGameOver;
+        GetTree().ReloadCurrentScene();
+    }
         
     void Clear() {QueueFree();}
 

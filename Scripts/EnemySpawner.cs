@@ -14,14 +14,31 @@ public class EnemySpawner : Node
     RandomNumberGenerator rng = new RandomNumberGenerator();
     List<Node2D> spawnPoints = new List<Node2D>();
 
+    Node enemyContainer;
+    bool Spawn = false;
+
     public override void _Ready()
     {
+        enemyContainer = new Node();
         elapsed = spawnRate;
         Init();
+        CallDeferred(nameof(Start));
+    }
+
+    void Start()
+    {
+        GetTree().CurrentScene.AddChild(enemyContainer);
+        if (GameManager.Instance != null)
+        {
+            GameManager.onGameStart += OnStartGame;
+            GameManager.onGameStop += OnEndGame;
+        }
     }
 
     public override void _Process(float delta)
     {
+        if (!Spawn) return;
+
         elapsed -= delta;
         if (elapsed <= 0)
         {
@@ -41,6 +58,16 @@ public class EnemySpawner : Node
         GD.Print(spawnPoints.Count);
     }
 
+    void OnStartGame()
+    {
+        Spawn = true;
+    }
+
+    void OnEndGame()
+    {
+        Spawn = false;
+    }
+
     void SpawnEnemyAtRandomPosInPositionList()
     {
         int positionCount = spawnPoints.Count;
@@ -54,7 +81,7 @@ public class EnemySpawner : Node
         rng.Randomize();
         Enemy lEnemy = possibleEnemies[rng.RandiRange(0, enemyCounts - 1)].Instance() as Enemy;
 
-        GetTree().Root.AddChild(lEnemy);
+        GetTree().CurrentScene.AddChild(lEnemy);
         lEnemy.GlobalPosition = spawnPoints[rng.RandiRange(0, positionCount - 1)].GlobalPosition;
     }
 
