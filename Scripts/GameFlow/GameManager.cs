@@ -61,7 +61,7 @@ public class GameManager : Node2D {
         onPause?.Invoke();
     }
 
-    public void UnPauseGame()
+    public void ResumeGame()
     {
         Engine.TimeScale = 1;
         onResume?.Invoke();
@@ -69,7 +69,7 @@ public class GameManager : Node2D {
 
     public void StartGame()
     {
-        UnPauseGame();
+        ResumeGame();
         Score = 0;
         if(_Deimos !=null) _Deimos.life.onNoMoreHealth += StopGame;
 
@@ -100,7 +100,7 @@ public class GameManager : Node2D {
     // States machines
     private void ListenPauseInputs()
     {
-        if (Input.IsActionJustPressed(INPUTS.PAUSE))
+        if (Input.IsActionJustReleased(INPUTS.PAUSE))
         {
             PauseGame();
             state = ListenUnpauseInput;
@@ -109,10 +109,10 @@ public class GameManager : Node2D {
 
     private void ListenUnpauseInput()
     {
-        if (Input.IsActionJustPressed(INPUTS.PAUSE))
+        if (Input.IsActionJustReleased(INPUTS.PAUSE))
         {
-            UnPauseGame();
-            state = ListenUnpauseInput;
+            ResumeGame();
+            state = ListenPauseInputs;
         }
     }
 
