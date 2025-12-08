@@ -75,6 +75,10 @@ public class GameManager : Node2D {
             Instance = null;
             _Deimos = null;
             _BulletContainer = null;
+
+            onGameStop = null;
+            onGameStart = null;
+            onScoreUpdate = null;
         }
         base._ExitTree();
     }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Assets/SpriteSheets/Hands.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Prefabs/HandsAnimation.cs" type="Script" id=2]
@@ -6,8 +6,11 @@
 [ext_resource path="res://Prefabs/UI/Portrait.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Prefabs/Players/Pholia.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Prefabs/Players/Deimos.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Prefabs/UI/LifeBar.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scripts/GameFlow/PholiaDeimosFlowManager.cs" type="Script" id=8]
 
 [node name="PholiaDeimos" type="Node"]
+script = ExtResource( 8 )
 
 [node name="Pholia" parent="." instance=ExtResource( 5 )]
 hpCollisionPath = NodePath("Area2D/CollisionShape2D")
@@ -43,5 +46,11 @@ stream = ExtResource( 3 )
 [node name="Portraits" parent="CanvasLayer" instance=ExtResource( 4 )]
 playerPath = NodePath("../../Deimos")
 
+[node name="LifeBar" parent="CanvasLayer" instance=ExtResource( 7 )]
+
+[node name="ProgressBar" parent="CanvasLayer/LifeBar" index="0"]
+characterToMonitorCollision = NodePath("../../../Deimos/Area2D")
+
 [editable path="Pholia"]
 [editable path="Deimos"]
+[editable path="CanvasLayer/LifeBar"]

@@ -1,0 +1,24 @@
+[gd_resource type="Theme" load_steps=3 format=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
+skew = Vector2( 0.33, 0.037 )
+border_color = Color( 0.203922, 0.203922, 0.203922, 1 )
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+expand_margin_left = 3.0
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 1, 0.313726, 0.0156863, 1 )
+skew = Vector2( -0.173, 0.025 )
+border_width_bottom = 2
+border_color = Color( 0, 1, 1, 1 )
+border_blend = true
+corner_radius_top_left = 1024
+corner_radius_top_right = 47
+corner_radius_bottom_right = 490
+corner_radius_bottom_left = 490
+
+[resource]
+ProgressBar/styles/bg = SubResource( 1 )
+ProgressBar/styles/fg = SubResource( 2 )
