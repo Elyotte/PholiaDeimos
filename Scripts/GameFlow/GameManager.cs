@@ -20,11 +20,12 @@ public class GameManager : Node2D {
     public int Score { get; private set; } = 0;
 
     public static GameManager Instance { get; private set; }
-    public static Action onGameStart;
-    public static Action onGameStop;
-    public static Action<int> onScoreUpdate;
-    public static Action onPause;
-    public static Action onResume;
+    public static event Action onGameStart;
+    public static event Action onGameStop;
+    public static event Action<int> onScoreUpdate;
+    public static event Action onPause;
+    public static event Action onResume;
+    public static Action onResumeByButton;
 
     public Action state;
 
@@ -37,6 +38,8 @@ public class GameManager : Node2D {
             _musicPlayer = GetNode<musicPlayer>(musicPath);
             _Deimos = GetNode<Deimos>(deimosPath);
             _BulletContainer = GetNode<Node2D>(bulletContainerPath);
+
+            onResumeByButton = ResumeGameByButton;
         }
         else CallDeferred(nameof(Clear));
 
@@ -57,13 +60,13 @@ public class GameManager : Node2D {
 
     public void PauseGame()
     {
-        Engine.TimeScale = 0;
+        GetTree().Paused = true;
         onPause?.Invoke();
     }
 
     public void ResumeGame()
     {
-        Engine.TimeScale = 1;
+        GetTree().Paused = false;
         onResume?.Invoke();
     }
 
@@ -98,6 +101,12 @@ public class GameManager : Node2D {
     void Clear() {QueueFree();}
 
     // States machines
+    private void ResumeGameByButton()
+    {
+        ResumeGame();
+        state = ListenPauseInputs;
+    }
+
     private void ListenPauseInputs()
     {
         if (Input.IsActionJustReleased(INPUTS.PAUSE))
@@ -127,6 +136,8 @@ public class GameManager : Node2D {
             onGameStop = null;
             onGameStart = null;
             onScoreUpdate = null;
+
+            onResumeByButton = null;
         }
         base._ExitTree();
     }
