@@ -15,4 +15,6 @@ public static class INPUTS
     public const string AIM_DOWN = "aimDown";
 
     public const string SPLIT = "split";
+
+    public const string PAUSE = "pause";
 }

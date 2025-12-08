@@ -23,6 +23,10 @@ public class GameManager : Node2D {
     public static Action onGameStart;
     public static Action onGameStop;
     public static Action<int> onScoreUpdate;
+    public static Action onPause;
+    public static Action onResume;
+
+    public Action state;
 
     public override void _Ready()
     {
@@ -35,6 +39,14 @@ public class GameManager : Node2D {
             _BulletContainer = GetNode<Node2D>(bulletContainerPath);
         }
         else CallDeferred(nameof(Clear));
+
+        state = null;
+    }
+
+    public override void _Process(float delta)
+    {
+        base._Process(delta);
+        state?.Invoke();
     }
     
     public void AddScore(int pAmount)
@@ -43,10 +55,25 @@ public class GameManager : Node2D {
         onScoreUpdate?.Invoke(Score);
     }
 
+    public void PauseGame()
+    {
+        Engine.TimeScale = 0;
+        onPause?.Invoke();
+    }
+
+    public void UnPauseGame()
+    {
+        Engine.TimeScale = 1;
+        onResume?.Invoke();
+    }
+
     public void StartGame()
     {
+        UnPauseGame();
         Score = 0;
         if(_Deimos !=null) _Deimos.life.onNoMoreHealth += StopGame;
+
+        state = ListenPauseInputs;
         onGameStart?.Invoke();
     }
 
@@ -56,8 +83,10 @@ public class GameManager : Node2D {
         else GD.PrintErr("No music stopped detected");
         if (_Deimos != null) _Deimos.life.onNoMoreHealth -= StopGame;
         else GD.PrintErr("No Deimos detected");
-            
+
+        state = ListenUnpauseInput;
         onGameStop?.Invoke();
+
     }
 
     public void ShowGameOver()
@@ -67,6 +96,25 @@ public class GameManager : Node2D {
     }
         
     void Clear() {QueueFree();}
+
+    // States machines
+    private void ListenPauseInputs()
+    {
+        if (Input.IsActionJustPressed(INPUTS.PAUSE))
+        {
+            PauseGame();
+            state = ListenUnpauseInput;
+        }
+    }
+
+    private void ListenUnpauseInput()
+    {
+        if (Input.IsActionJustPressed(INPUTS.PAUSE))
+        {
+            UnPauseGame();
+            state = ListenUnpauseInput;
+        }
+    }
 
     public override void _ExitTree()
     {
@@ -83,4 +131,3 @@ public class GameManager : Node2D {
         base._ExitTree();
     }
 }
-
