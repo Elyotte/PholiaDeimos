@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 public class LifeComponentCollision  : Area2D
 {
     [Export] Node2D owner;
-    [Export] public int maxLife { get; private set; } = 10;
+    [Export] int maxLife = 10;
     public int currentLife { get; private set; }
     public event Action onNoMoreHealth;
     public event Action<int> onHealthChanged; // args is new health

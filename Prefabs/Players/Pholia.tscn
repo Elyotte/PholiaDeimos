@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Scripts/LinkedLifeComponent.cs" type="Script" id=1]
-[ext_resource path="res://Scripts/Pholia.cs" type="Script" id=2]
+[ext_resource path="res://Scripts/Core/LinkedLifeComponent.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/Gameplay/Pholia.cs" type="Script" id=2]
 [ext_resource path="res://Assets/SpriteSheets/PholiaSpriteFrame.tres" type="SpriteFrames" id=3]
 
 [sub_resource type="CircleShape2D" id=4]
