@@ -19,6 +19,8 @@ public class Enemy : BorderCheck
         lifeComponent = GetNode<LifeComponentCollision>(lifeComponentPath);
         base._Ready();
         lifeComponent.onNoMoreHealth += Death;
+
+        m_CurrentState = Pattern;
     }
 
     public override void _Process(float delta)
@@ -29,8 +31,7 @@ public class Enemy : BorderCheck
 
     protected override void CheckBorders()
     {
-        Vector2 lBound;
-        if (IsOutOfBounds(out lBound))
+        if (IsOutOfBounds(out Vector2 lBound))
         {
             // Only destroy the enemy when the out of bounds is in the lower vertical part of the screen
             if (lBound.y == 1)
@@ -39,6 +40,8 @@ public class Enemy : BorderCheck
             }
         }
     }
+
+    virtual protected void Pattern(float delta) { }
 
     private async void Death()
     {
