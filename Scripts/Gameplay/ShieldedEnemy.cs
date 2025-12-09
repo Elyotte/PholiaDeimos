@@ -4,6 +4,7 @@ using System;
 public class ShieldedEnemy : PatternBasedEnemy
 {
     Vector2 targetPos;
+    float _DeadZone = 50f;
 
     public override void _Ready()
     {
@@ -19,7 +20,7 @@ public class ShieldedEnemy : PatternBasedEnemy
         }
         Vector2 distanceToTarget = targetPos - GlobalPosition;
         
-        if(distanceToTarget.Length() >= 1f)
+        if(distanceToTarget.Length() >= _DeadZone)
         {
             GlobalPosition += distanceToTarget.Normalized() * m_MoveSpeed * delta;
         }

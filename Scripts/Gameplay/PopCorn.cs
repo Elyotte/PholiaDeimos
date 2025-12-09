@@ -10,7 +10,7 @@ public class PopCorn : PatternBasedEnemy
     {
         // Ne Fonctionne pas
         HorizontalSine(delta, sinusSpeed, moveOffset);
-
+        GlobalPosition += Vector2.Down * m_MoveSpeed * delta;
     }
     
 }
