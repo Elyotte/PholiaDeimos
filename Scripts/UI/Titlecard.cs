@@ -10,6 +10,7 @@ public class Titlecard : Control
     {
         button = GetNode<Button>(buttonPath);
         button.Connect(SignalNames.BUTTON_CLICKED,this,nameof(OnStartGameClicked));
+        button.GrabFocus();
     }
 
     void OnStartGameClicked()

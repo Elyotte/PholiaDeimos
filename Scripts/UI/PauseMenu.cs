@@ -19,10 +19,15 @@ public class PauseMenu : Control
     void Start()
     {
         if (GameManager.Instance == null) return;
-
         Hide();
-        GameManager.onPause += Show;
+        GameManager.onPause += ShowMenu;
         GameManager.onResume += Hide;
+    }
+
+    void ShowMenu()
+    {
+        Show();
+        resumeButton.GrabFocus();
     }
 
     public void Resume()
