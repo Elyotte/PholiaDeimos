@@ -35,9 +35,18 @@ public class Bullet : Area2D
                 return;
             }
             Disconnect(SignalNames.AREA_ENTERED, this, nameof(OnAreaEntered));
-            QueueFree();
+            DestroyBullet();
+        }
+        else if (pArea is Shield)
+        {
+            DestroyBullet();
         }
         
+    }
+    
+    protected virtual void DestroyBullet()
+    {
+        QueueFree();
     }
 
 }

@@ -24,9 +24,6 @@ deimosPath = NodePath("PholiaDeimos/Deimos")
 bulletContainerPath = NodePath("BulletContainer")
 musicPath = NodePath("Music")
 
-[node name="Enemy" parent="." instance=ExtResource( 6 )]
-position = Vector2( 278, 38 )
-
 [node name="Music" type="AudioStreamPlayer" parent="."]
 pause_mode = 2
 stream = ExtResource( 9 )
@@ -53,6 +50,12 @@ position = Vector2( 500, -68 )
 [node name="BulletContainer" type="Node2D" parent="."]
 
 [node name="PholiaDeimos" parent="." instance=ExtResource( 1 )]
+
+[node name="AnimatedSprite" parent="PholiaDeimos/Pholia" index="0"]
+frame = 1
+
+[node name="Sprite" parent="PholiaDeimos/Deimos" index="0"]
+frame = 0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 2
