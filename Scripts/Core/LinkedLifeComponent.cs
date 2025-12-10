@@ -18,6 +18,12 @@ public class LinkedLifeComponent : LifeComponentCollision
         LifeComponentToApplyDamage = GetNode<LifeComponentCollision>(lifeComponentToApplyDamagePath);
     }
 
+
+    public override void Heal(int pHealAmount)
+    {
+        if (LifeComponentToApplyDamage == null) return;
+        LifeComponentToApplyDamage?.Heal(pHealAmount);
+    }
     public override void Damage(int pAmount)
     {
         if (LifeComponentToApplyDamage == null) return;

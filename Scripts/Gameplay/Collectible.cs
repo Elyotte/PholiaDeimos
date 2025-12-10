@@ -12,8 +12,8 @@ public class Collectible : Area2D
 
     void OnAreaEntered(Area2D area)
     {
-        if (area is Pholia || area is Deimos)
-        {
+        if (area is LifeComponentCollision lLife)
+        { 
             Disapear();
         }
     }

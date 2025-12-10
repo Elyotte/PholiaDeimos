@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Prefabs/PholiaDeimos.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Prefabs/Enemies/ShootingPopCorn.tscn" type="PackedScene" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Fonts/Random font..ttf" type="DynamicFontData" id=11]
 [ext_resource path="res://Prefabs/Enemies/ShieldedEnemy.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Scripts/Core/EnemySpawner.cs" type="Script" id=13]
+[ext_resource path="res://Prefabs/LifeCollectible.tscn" type="PackedScene" id=14]
 
 [sub_resource type="DynamicFont" id=1]
 size = 120
@@ -128,6 +129,9 @@ custom_fonts/font = SubResource( 1 )
 text = "Pause"
 align = 1
 valign = 1
+
+[node name="LifePV" parent="." instance=ExtResource( 14 )]
+position = Vector2( 423, 259 )
 
 [editable path="PholiaDeimos"]
 [editable path="PholiaDeimos/Pholia"]

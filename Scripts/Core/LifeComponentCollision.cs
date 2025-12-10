@@ -52,6 +52,18 @@ public class LifeComponentCollision  : Area2D
                 other.Damage(1);
             }
         }
+        else if (area is Collectible lCollectible)
+        {
+            Heal(lCollectible.HealAmount);
+        }
+    }
+
+    public virtual void Heal(int pHealAmount)
+    {
+        currentLife += pHealAmount;
+        onHealthChanged?.Invoke(currentLife);
+        HealAnimation();
+        IsAlive();
     }
 
     public virtual void Damage(int pAmount)
@@ -60,6 +72,20 @@ public class LifeComponentCollision  : Area2D
         onHealthChanged?.Invoke(currentLife);
         DamageAnimation();
         IsAlive();
+    }
+
+    public async virtual void HealAnimation()
+    {
+        SceneTreeTween healTween = CreateTween();
+        float lToGreenTime = .3f;
+        float lToWhiteModulate = .7f;
+        healTween.TweenProperty(owner, "modulate", Colors.Green, lToGreenTime)
+            .SetTrans(Tween.TransitionType.Quint)
+            .SetEase(Tween.EaseType.InOut);
+        healTween.TweenProperty(owner, "modulate", Colors.White, lToWhiteModulate)
+            .SetEase(Tween.EaseType.InOut);
+
+        onDamage?.Invoke();
     }
 
     public async virtual void DamageAnimation()
