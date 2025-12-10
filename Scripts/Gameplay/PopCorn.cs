@@ -8,9 +8,7 @@ public class PopCorn : PatternBasedEnemy
 
     override protected void Pattern(float delta)
     {
-        // Ne Fonctionne pas
-        HorizontalSine(delta, sinusSpeed, moveOffset);
-        GlobalPosition += Vector2.Down * m_MoveSpeed * delta;
+        GlobalPosition += ToDeimosVector().Normalized() * m_MoveSpeed * delta;
     }
     
 }

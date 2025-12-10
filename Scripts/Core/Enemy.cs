@@ -23,6 +23,9 @@ public class Enemy : BorderCheck
         m_CurrentState = Pattern;
     }
 
+    public void SetVoid() { m_CurrentState = null; }
+    public void SetMove() { m_CurrentState = Pattern; }
+
     public override void _Process(float delta)
     {
         base._Process(delta);

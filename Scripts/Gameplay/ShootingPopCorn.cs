@@ -21,9 +21,13 @@ public class ShootingPopCorn : PopCorn
         m_CurrentState += Shoot;
     }
 
+    protected override void Pattern(float delta)
+    {
+        DotCrossedSine(delta);
+    }
+
     virtual protected void Shoot(float delta)
     {
-
         if (elapsed <= 0)
         {
             shoot.Shoot(GameManager.bulletContainer, Vector2.Down * (m_MoveSpeed + shootSpeed), pos.GlobalPosition, shootDamage);
