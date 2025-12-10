@@ -30,7 +30,7 @@ public class ShootingPopCorn : PopCorn
     {
         if (elapsed <= 0)
         {
-            shoot.Shoot(GameManager.bulletContainer, Vector2.Down * (m_MoveSpeed + shootSpeed), pos.GlobalPosition, shootDamage);
+            shoot.Shoot(GameManager.bulletContainer, ToDeimosVector().Normalized() * (m_MoveSpeed + shootSpeed), pos.GlobalPosition, shootDamage);
             elapsed += fireRate;
         } 
         elapsed -= delta; 

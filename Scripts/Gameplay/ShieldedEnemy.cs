@@ -98,8 +98,8 @@ public class ShieldedEnemy : PatternBasedEnemy
             new Vector2(rng.RandfRange(-spawnRandomRadius, spawnRandomRadius), -spawnY);
         
         spawnAnim.TweenProperty(lPopCorn, "global_position", spawnTarget, .3f)
-            .SetTrans(Tween.TransitionType.Circ)
-            .SetEase(Tween.EaseType.OutIn);
+            .SetTrans(Tween.TransitionType.Expo)
+            .SetEase(Tween.EaseType.Out);
 
         await ToSignal(spawnAnim, SignalNames.TWEEN_FINISHED);
 
