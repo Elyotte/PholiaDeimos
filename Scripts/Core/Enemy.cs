@@ -58,8 +58,10 @@ public class Enemy : BorderCheck
 
         float deathScale = 1.3f;
         float inTime = .22f;
+        Vector2 baseScale = sprite.Scale;
+
         SceneTreeTween tween = CreateTween();
-        tween.TweenProperty(sprite, "scale", Vector2.One * deathScale, inTime)
+        tween.TweenProperty(sprite, "scale", baseScale * deathScale, inTime)
             .SetTrans(Tween.TransitionType.Back)
             .SetEase(Tween.EaseType.In);
         await ToSignal(tween, SignalNames.TWEEN_FINISHED);
