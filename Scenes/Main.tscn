@@ -51,6 +51,12 @@ position = Vector2( 500, -68 )
 
 [node name="PholiaDeimos" parent="." instance=ExtResource( 1 )]
 
+[node name="AnimatedSprite" parent="PholiaDeimos/Pholia" index="0"]
+frame = 1
+
+[node name="Sprite" parent="PholiaDeimos/Deimos" index="0"]
+frame = 0
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 2
 
