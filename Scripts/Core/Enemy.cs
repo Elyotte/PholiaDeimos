@@ -13,6 +13,8 @@ public class Enemy : BorderCheck
 
     protected Action<float> m_CurrentState;
 
+    public static Action<Vector2> onDeath;
+
     public override void _Ready()
     {
         sprite = GetNode<Sprite>(rendererPath);
@@ -61,6 +63,8 @@ public class Enemy : BorderCheck
             .SetTrans(Tween.TransitionType.Back)
             .SetEase(Tween.EaseType.In);
         await ToSignal(tween, SignalNames.TWEEN_FINISHED);
+
+        onDeath?.Invoke(GlobalPosition);
         QueueFree();
         
     }

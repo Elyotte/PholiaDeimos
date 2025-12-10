@@ -1,8 +1,6 @@
 using Godot;
 using System;
 using System.Data;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 
 public class GameManager : Node2D {
 
@@ -29,16 +27,18 @@ public class GameManager : Node2D {
 
     public Action state;
 
+    
+
     public override void _Ready()
     {
         if (Instance == null)
         {
             GD.Print("new instance");
+
             Instance = this;
             _musicPlayer = GetNode<musicPlayer>(musicPath);
             _Deimos = GetNode<Deimos>(deimosPath);
             _BulletContainer = GetNode<Node2D>(bulletContainerPath);
-
             onResumeByButton = ResumeGameByButton;
         }
         else CallDeferred(nameof(Clear));
@@ -52,6 +52,7 @@ public class GameManager : Node2D {
         state?.Invoke();
     }
     
+
     public void AddScore(int pAmount)
     {
         Score += pAmount;
@@ -138,6 +139,7 @@ public class GameManager : Node2D {
             onScoreUpdate = null;
 
             onResumeByButton = null;
+
         }
         base._ExitTree();
     }
