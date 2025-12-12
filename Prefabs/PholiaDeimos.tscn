@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Assets/SpriteSheets/Hands.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Scripts/HandsAnimation.cs" type="Script" id=2]
 [ext_resource path="res://Sounds/SFX/CLAP.ogg" type="AudioStream" id=3]
-[ext_resource path="res://Prefabs/UI/Portrait.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Prefabs/Players/Pholia.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Prefabs/Players/Deimos.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Prefabs/UI/LifeBar.tscn" type="PackedScene" id=7]
@@ -15,9 +14,6 @@ script = ExtResource( 8 )
 [node name="Pholia" parent="." instance=ExtResource( 5 )]
 hpCollisionPath = NodePath("Area2D/CollisionShape2D")
 
-[node name="AnimatedSprite" parent="Pholia" index="0"]
-frame = 0
-
 [node name="Area2D" parent="Pholia" index="1"]
 maxLife = 11
 lifeComponentToApplyDamagePath = NodePath("../../Deimos/Area2D")
@@ -25,9 +21,6 @@ lifeComponentToApplyDamagePath = NodePath("../../Deimos/Area2D")
 [node name="Deimos" parent="." instance=ExtResource( 6 )]
 position = Vector2( 308, 410 )
 pholiaPath = NodePath("../Pholia")
-
-[node name="Sprite" parent="Deimos" index="0"]
-frame = 1
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
 position = Vector2( 308, 410 )
@@ -42,9 +35,6 @@ sfxsoundsource = NodePath("AudioStreamPlayer")
 stream = ExtResource( 3 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Portraits" parent="CanvasLayer" instance=ExtResource( 4 )]
-playerPath = NodePath("../../Deimos")
 
 [node name="LifeBar" parent="CanvasLayer" instance=ExtResource( 7 )]
 

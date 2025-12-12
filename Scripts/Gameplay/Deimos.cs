@@ -29,17 +29,13 @@ public class Deimos : MouseOrKeyboardInputs
     public LifeComponentCollision life { get; private set; }
     ShootComponent shootComponent;
     Cursor cursorComponent;
-    AnimatedSprite renderer;
+    Sprite renderer;
     Pholia pholia;
 
     // Statemachine
     public Action<float> CurrentState; // arg is delta time
     public event Action onSplit;
     public event Action onResplit;
-
-    // AnimatedSprite anims names
-    string A_Whole = "default";
-    string A_Splited = "UnGhosted";
 
     // Dynamic variables
     float shootCooldown;
@@ -55,7 +51,7 @@ public class Deimos : MouseOrKeyboardInputs
         cursorComponent = GetNode<Cursor>(cursorPath);
         life = GetNode<LifeComponentCollision>(lifePath);
         pholia = GetNode<Pholia>(pholiaPath);
-        renderer = GetNode<AnimatedSprite>(renderPath);
+        renderer = GetNode<Sprite>(renderPath);
 
         base._Ready();
 
@@ -94,7 +90,6 @@ public class Deimos : MouseOrKeyboardInputs
     }
     private void NormalMode(float delta)
     {
-        renderer.Play(A_Whole);
         cursorComponent?.SetCursorDirection(aimInputAxis);
 
         Move(delta, speed);
@@ -128,7 +123,6 @@ public class Deimos : MouseOrKeyboardInputs
     {
         playerState = PlayerState.InTransition;
         CurrentState = null;
-        renderer.Play(A_Splited);
         pholia.GlobalPosition = GlobalPosition;
         pholia.Visible = true;
 
