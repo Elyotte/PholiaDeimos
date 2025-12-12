@@ -5,7 +5,7 @@ using System.Reflection;
 using Godot;
 
 /// <summary>
-/// Responsible to detect user input and execute logic
+/// Deimos playable character
 /// </summary>
 public class Deimos : MouseOrKeyboardInputs
 {
