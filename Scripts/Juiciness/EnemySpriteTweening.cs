@@ -17,15 +17,16 @@ public class EnemySpriteTweening : SpriteTweening
         base.DamageAnimation();
         SceneTreeTween scaleTween = GetTree().CreateTween();
         Vector2 baseScale = defaultScale;
-        float scaleFactor = 1.2f;
+        float scaleFactor = 1.5f;
         float damageAnimDuration = .2f;
+        float returnNormal = .1f;
 
         scaleTween.TweenProperty(m_sprite, "scale", baseScale * scaleFactor, damageAnimDuration)
-            .SetTrans(Tween.TransitionType.Elastic)
-            .SetEase(Tween.EaseType.Out);
+            .SetTrans(Tween.TransitionType.Back)
+            .SetEase(Tween.EaseType.In);
 
-        scaleTween.TweenProperty(m_sprite, "scale", baseScale, damageAnimDuration)
-            .SetTrans(Tween.TransitionType.Bounce)
-            .SetEase(Tween.EaseType.OutIn);
+        scaleTween.TweenProperty(m_sprite, "scale", baseScale, returnNormal)
+            .SetTrans(Tween.TransitionType.Back)
+            .SetEase(Tween.EaseType.Out);
     }
 }
