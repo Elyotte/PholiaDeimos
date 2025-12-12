@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/Core/LifeComponentCollision.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Gameplay/Deimos.cs" type="Script" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://Prefabs/Bullets/PlayerBullet.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Prefabs/Components/CursorComponent.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Assets/SimpleShapes/Deimos.png" type="Texture" id=6]
+[ext_resource path="res://Scripts/Juiciness/DeimosSpriteSelect.cs" type="Script" id=7]
+[ext_resource path="res://Assets/SimpleShapes/PholiaAndDeimos.png" type="Texture" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 22.0227
@@ -18,7 +20,10 @@ lifePath = NodePath("Area2D")
 renderPath = NodePath("Sprite")
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 6 )
+texture = ExtResource( 8 )
+script = ExtResource( 7 )
+pholiaAndDeimosTexture = ExtResource( 6 )
+deimospth = NodePath("..")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_mask = 58

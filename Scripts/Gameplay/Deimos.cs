@@ -20,9 +20,9 @@ public class Deimos : MouseOrKeyboardInputs
     [Export] float fireRate = .2f;
     float fireRateOppositeCoeff = .85f;
     float matchingDirFireRateCoeffe = 1.1f;
-    
+
     // nodepaths
-    [Category("NodePath")]
+    [Category("NodePath and resources")]
     [Export] NodePath ShootFactoryPath, cursorPath, lifePath, pholiaPath, renderPath;
 
     // Component
