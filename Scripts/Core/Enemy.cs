@@ -19,11 +19,14 @@ public class Enemy : BorderCheck
     {
         sprite = GetNode<Sprite>(rendererPath);
         lifeComponent = GetNode<LifeComponentCollision>(lifeComponentPath);
+
         base._Ready();
         lifeComponent.onNoMoreHealth += Death;
 
         m_CurrentState = Pattern;
+
     }
+
 
     public void SetVoid() { m_CurrentState = null; }
     public void SetMove() { m_CurrentState = Pattern; }

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/Core/LifeComponentCollision.cs" type="Script" id=1]
 [ext_resource path="res://Assets/SimpleShapes/popcorn.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/Gameplay/PopCorn.cs" type="Script" id=3]
+[ext_resource path="res://Scripts/Juiciness/EnemySpriteTweening.cs" type="Script" id=4]
 
 [sub_resource type="CircleShape2D" id=3]
 radius = 23.1948
@@ -23,3 +24,8 @@ maxLife = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 3 )
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource( 4 )
+spriteToAnimatepth = NodePath("../Sprite")
+lifecomppth = NodePath("../Area2D")

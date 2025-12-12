@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/Core/LifeComponentCollision.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Gameplay/Deimos.cs" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Assets/SimpleShapes/Deimos.png" type="Texture" id=6]
 [ext_resource path="res://Scripts/Juiciness/DeimosSpriteSelect.cs" type="Script" id=7]
 [ext_resource path="res://Assets/SimpleShapes/PholiaAndDeimos.png" type="Texture" id=8]
+[ext_resource path="res://Scripts/Juiciness/SpriteTweening.cs" type="Script" id=9]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 22.0227
@@ -38,3 +39,8 @@ bulletPrefab = ExtResource( 4 )
 
 [node name="CursorComponent" parent="." instance=ExtResource( 5 )]
 distanceToCursor = 270.0
+
+[node name="DamageAndHealAnim" type="Node" parent="."]
+script = ExtResource( 9 )
+spriteToAnimatepth = NodePath("../Sprite")
+lifecomppth = NodePath("../Area2D")
