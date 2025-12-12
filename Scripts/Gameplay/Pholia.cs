@@ -14,7 +14,7 @@ public class Pholia : MouseOrKeyboardInputs
     {
         collision = GetNode<CollisionShape2D>(hpCollisionPath);
         deimos = GetNode<Deimos>(deimosPath);
-        deimos.onSplit += SetModeMove;
+        deimos.onSplitAnimFinished += SetModeMove;
         deimos.onResplit += SetModeDeactivated;
 
         base._Ready();
@@ -48,7 +48,7 @@ public class Pholia : MouseOrKeyboardInputs
     public override void _ExitTree()
     {
         deimos.onResplit -= SetModeDeactivated;
-        deimos.onSplit -= SetModeMove;
+        deimos.onSplitAnimFinished -= SetModeMove;
         base._ExitTree();
     }
 }

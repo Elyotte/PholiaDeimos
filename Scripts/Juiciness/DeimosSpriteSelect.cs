@@ -24,7 +24,7 @@ public class DeimosSpriteSelect : Sprite
     void Start()
     {
         deimos = GetNode<Deimos>(deimospth);
-        deimos.onResplit += OnResplit;
+        deimos.onResplitAnimFinished += OnResplit;
         deimos.onSplit += OnSplit;
     }
 
@@ -40,7 +40,7 @@ public class DeimosSpriteSelect : Sprite
 
     public override void _ExitTree()
     {
-        deimos.onResplit -= OnResplit;
+        deimos.onResplitAnimFinished -= OnResplit;
         deimos.onSplit -= OnSplit;
         base._ExitTree();
     }

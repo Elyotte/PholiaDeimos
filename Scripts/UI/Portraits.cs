@@ -22,7 +22,7 @@ public class Portraits : Control
         pholia = GetNode<TextureRect>(pholiaPortrait);
         player = GetNode<Deimos>(playerPath);
 
-        player.onSplit += Activate;
+        player.onSplitAnimFinished += Activate;
         player.onResplit += Deactivate;
 
         Deactivate();
@@ -64,7 +64,7 @@ public class Portraits : Control
 
     public override void _ExitTree()
     {
-        player.onSplit -= Activate;
+        player.onSplitAnimFinished -= Activate;
         player.onResplit -= Deactivate;
         base._ExitTree();
     }

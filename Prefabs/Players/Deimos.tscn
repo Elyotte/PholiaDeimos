@@ -22,7 +22,7 @@ renderPath = NodePath("Sprite")
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 8 )
 script = ExtResource( 7 )
-pholiaAndDeimosTexture = ExtResource( 6 )
+splittedTexture = ExtResource( 6 )
 deimospth = NodePath("..")
 
 [node name="Area2D" type="Area2D" parent="."]

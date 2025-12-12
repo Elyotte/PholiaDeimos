@@ -35,7 +35,9 @@ public class Deimos : MouseOrKeyboardInputs
     // Statemachine
     public Action<float> CurrentState; // arg is delta time
     public event Action onSplit;
+    public event Action onSplitAnimFinished;
     public event Action onResplit;
+    public event Action onResplitAnimFinished;
 
     // Dynamic variables
     float shootCooldown;
@@ -138,11 +140,12 @@ public class Deimos : MouseOrKeyboardInputs
             .SetTrans(Tween.TransitionType.Circ)
             .SetEase(Tween.EaseType.Out);
 
+        onSplit?.Invoke();
         await ToSignal(tween, SignalNames.TWEEN_FINISHED);
 
 
         CurrentState = SplittedMode;
-        onSplit?.Invoke();
+        onSplitAnimFinished?.Invoke();
         cursorComponent.Visible = false;
         playerState = PlayerState.Splitted;
     }
@@ -183,6 +186,8 @@ public class Deimos : MouseOrKeyboardInputs
 
         tween.Play();
         await ToSignal(tween, SignalNames.TWEEN_FINISHED);
+
+        onResplitAnimFinished?.Invoke();
 
         pholia.Visible = false;
         cursorComponent.Visible = true;
