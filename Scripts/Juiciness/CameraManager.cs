@@ -41,30 +41,7 @@ public class CameraManager : Camera2D
     public async Task Shake( float pShakeDuration, float pShakeIntensity, CancellationToken token = default)
     {
         if (!Current) return;
-
-        Vector2 originalOffset = Offset;
-        int elapsed = 0;
-        int shakeDuration = (int)pShakeDuration * 1000;
-        int iDelta = 16;
-
-        rng.Randomize();
-        while (elapsed < shakeDuration && !token.IsCancellationRequested)
-        {
-            elapsed += iDelta;
-
-            float fadeOut = 1f - ((float)elapsed / shakeDuration);
-            float currentIntensity = pShakeIntensity * fadeOut;
-
-            float offsetX = rng.RandfRange(-1f,1f) * currentIntensity;
-            float offsetY = rng.RandfRange(-1f, 1f) * currentIntensity;
-
-            Offset = originalOffset + new Vector2(offsetX, offsetY);
-
-            await Task.Delay(iDelta);
-            GD.Print(elapsed);
-        }
-
-        Offset = originalOffset;
+        JuicinessUtils.Shake(this, pShakeDuration, pShakeIntensity);
     }
 
     async void ResplitShake()
