@@ -8,6 +8,11 @@ public static class JuicinessUtils
 {
     static Task tick;
     static CancellationTokenSource cancelSource;
+    private static RandomNumberGenerator rng = new RandomNumberGenerator();
+
+    // Delta seconds for asynchronous Engine Timescale independant animations
+    const int iDelta = 16; // number of miliseconds between frame for 60FPS
+    const float delta = 0.016f; // 16ms precalculated 
 
     public static SceneTree GetMainTree()
     {
@@ -22,37 +27,46 @@ public static class JuicinessUtils
         Engine.TimeScale = initialTimeScale;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="pDuration"></param>
+    /// <param name="pTransitionTime"></param>
+    /// <param name="pStopTimeScale"></param>
+    /// <returns></returns>
     public static async Task SmoothedHitStop(float pDuration, float pTransitionTime, float pStopTimeScale = 0f)
     {
         float initialTimeScale = Engine.TimeScale;
         cancelSource = new CancellationTokenSource();
 
-        // Freeze instantané
+        // Freeze
         Engine.TimeScale = pStopTimeScale;
-
-        // Maintien du freeze
         await Task.Delay((int)(pDuration * 1000));
 
+        /* start an interpolation to the original timescale without awaiting to let
+           player or any object that called the hitstop resume processing */
         tick = ReturnToNormalTimeScale(pTransitionTime, pStopTimeScale, initialTimeScale, cancelSource.Token);
     }
 
     private static async Task ReturnToNormalTimeScale(float pTransition, float pStopTimeScale, float pTargetScale, CancellationToken tk)
     {
-        float initialScale = Engine.TimeScale;
-        int elapsedMilliseconds = 0;
-        int maxMilliseconds = (int)(pTransition * 1000);
+        float elapsed = 0f;
 
-        int delta = 100;
-
-        while (elapsedMilliseconds <= maxMilliseconds)
+        try
         {
-            elapsedMilliseconds += delta;
-            Engine.TimeScale = Mathf.Lerp(initialScale, pTargetScale, (float)elapsedMilliseconds / maxMilliseconds);
-            GD.Print(Engine.TimeScale);
-            await Task.Delay(delta);
-        }
+            while (elapsed < pTransition && !tk.IsCancellationRequested)
+            {
+                elapsed += delta;
+                float t = Mathf.Clamp(elapsed / pTransition, 0f, 1f);
+                Engine.TimeScale = Mathf.Lerp(pStopTimeScale, pTargetScale, t);
 
-        Engine.TimeScale = pTargetScale;
+                await Task.Delay(iDelta);
+            }
+        }
+        finally
+        {
+            Engine.TimeScale = pTargetScale;
+        }
     }
 
     /// <summary>
@@ -69,35 +83,28 @@ public static class JuicinessUtils
         if (pCamera == null) return;
 
         Vector2 originalOffset = pCamera.Offset;
-        int elapsed = 0;
-        int shakeDuration = (int)pShakeDuration * 1000;
-        int iDelta = 16;
-        RandomNumberGenerator rng = new RandomNumberGenerator();
+        float elapsed = 0f;
 
-        rng.Randomize();
         try
         {
-            while (elapsed < shakeDuration && !token.IsCancellationRequested)
+            while (elapsed < pShakeDuration && !token.IsCancellationRequested)
             {
-                elapsed += iDelta;
-
-                float fadeOut = 1f - ((float)elapsed / shakeDuration);
+                elapsed += delta;
+                float fadeOut = 1f - (elapsed / pShakeDuration);
                 float currentIntensity = pShakeIntensity * fadeOut;
 
-                float offsetX = rng.RandfRange(-1f, 1f) * currentIntensity;
-                float offsetY = rng.RandfRange(-1f, 1f) * currentIntensity;
-
-                pCamera.Offset = originalOffset + new Vector2(offsetX, offsetY);
+                pCamera.Offset = originalOffset + new Vector2(
+                    rng.RandfRange(-currentIntensity, currentIntensity),
+                    rng.RandfRange(-currentIntensity, currentIntensity)
+                );
 
                 await Task.Delay(iDelta);
             }
         }
         finally
         {
-            pCamera.Offset = originalOffset;
+            if (pCamera != null) pCamera.Offset = originalOffset;
         }
-
-
     }
 
 }

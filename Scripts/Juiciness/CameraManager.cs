@@ -10,7 +10,6 @@ public class CameraManager : Camera2D
     public Curve ShakeIntensityCurve;
     public static CameraManager Instance { get; private set; }
     Vector2 startOffset;
-    RandomNumberGenerator rng = new RandomNumberGenerator();
 
     public override void _Ready()
     {
