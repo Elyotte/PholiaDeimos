@@ -38,10 +38,16 @@ public class Deimos : MouseOrKeyboardInputs
     public event Action onSplitAnimFinished;
     public event Action onResplit;
     public event Action onResplitAnimFinished;
+    public event Action onSplitTimeout;
+    public event Action<float> onGetTimeLeftInSplit;
 
     // Dynamic variables
     float shootCooldown;
     private Vector2 playerVel;
+
+    // Time limit on split
+    [Export] float maxSplitDuration = 4f;
+    float timeInSplit = 0f;
 
     public PlayerState playerState { get; private set; }
 
@@ -127,6 +133,7 @@ public class Deimos : MouseOrKeyboardInputs
         CurrentState = null;
         pholia.GlobalPosition = GlobalPosition;
         pholia.Visible = true;
+        timeInSplit = maxSplitDuration;
 
         Vector2 finalPosDeimos = GlobalPosition - (aimInputAxis * 100f);
         Vector2 finalPosPholia = GlobalPosition + (aimInputAxis * 100f);
@@ -152,6 +159,15 @@ public class Deimos : MouseOrKeyboardInputs
     private void SplittedMode(float delta)
     {
         Move(delta, reducedSpeed);
+
+        timeInSplit = Mathf.MoveToward(timeInSplit, 0f, delta);
+        onGetTimeLeftInSplit?.Invoke(timeInSplit);
+        if (timeInSplit <= 0f)
+        {
+            onSplitTimeout?.Invoke();
+            life.Damage(1);
+            Resplit();
+        }
 
         if (Input.IsActionPressed(INPUTS.SPLIT) && pholia.AskResplit)
         {
@@ -185,6 +201,7 @@ public class Deimos : MouseOrKeyboardInputs
             .SetEase(Tween.EaseType.Out);
 
         tween.Play();
+        
         await ToSignal(tween, SignalNames.TWEEN_FINISHED);
 
         onResplitAnimFinished?.Invoke();
@@ -192,6 +209,9 @@ public class Deimos : MouseOrKeyboardInputs
         pholia.Visible = false;
         cursorComponent.Visible = true;
         shootCooldown += fireRate;
+
+        await JuicinessUtils.SmoothedHitStop(.1f, .7f, .2f);
+
         SetModeNormal();
     }
 

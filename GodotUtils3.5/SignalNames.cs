@@ -1,9 +1,7 @@
-using Godot;
-using System;
-
 public static class SignalNames 
 {
     public const string AREA_ENTERED = "area_entered";
+    public const string AREA_EXITED = "area_exited";
     public const string BODY_ENTERED = "body_entered";
     public const string BODY_EXITED = "body_exited";
 
@@ -15,4 +13,6 @@ public static class SignalNames
     public const string FRAME_CHANGED = "frame_changed";
 
     public const string BUTTON_CLICKED = "button_down";
+
+    public const string TIMEOUT = "timeout";
 }
