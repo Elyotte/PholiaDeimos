@@ -55,29 +55,34 @@ public static class JuicinessUtils
         Engine.TimeScale = pTargetScale;
     }
 
-    public static async Task CameraShake(Camera2D pCamera, float pShakeDuration, float pShakeIntensity, CancellationToken token = default)
+    public static async Task Shake(Camera2D pCamera, float pShakeDuration, float pShakeIntensity, CancellationToken token = default)
     {
         if (pCamera == null) return;
 
         Vector2 originalOffset = pCamera.Offset;
         int elapsed = 0;
         int shakeDuration = (int)pShakeDuration * 1000;
+        int iDelta = 16;
+        RandomNumberGenerator rng = new RandomNumberGenerator();
 
-        while (elapsed < pShakeDuration && !token.IsCancellationRequested)
+        rng.Randomize();
+        while (elapsed < shakeDuration && !token.IsCancellationRequested)
         {
-            int fDelta = 100;
-            elapsed += fDelta;
+            elapsed += iDelta;
 
             float fadeOut = 1f - ((float)elapsed / shakeDuration);
             float currentIntensity = pShakeIntensity * fadeOut;
 
-            float offsetX = (GD.Randf() * 2f - 1f) * currentIntensity;
-            float offsetY = (GD.Randf() * 2f - 1f) * currentIntensity;
+            float offsetX = rng.RandfRange(-1f, 1f) * currentIntensity;
+            float offsetY = rng.RandfRange(-1f, 1f) * currentIntensity;
 
             pCamera.Offset = originalOffset + new Vector2(offsetX, offsetY);
 
-            await Task.Delay(fDelta);
+            await Task.Delay(iDelta);
+            GD.Print(elapsed);
         }
+
+        pCamera.Offset = originalOffset;
     }
 
 }
