@@ -55,6 +55,15 @@ public static class JuicinessUtils
         Engine.TimeScale = pTargetScale;
     }
 
+    /// <summary>
+    /// This method provide a way to make a camera shake using parameters and camera reference
+    /// The async method is unscaled, meaning that the shake still works when Timescale is 0
+    /// </summary>
+    /// <param name="pCamera"> Camera reference</param>
+    /// <param name="pShakeDuration"> Duration of the shake </param>
+    /// <param name="pShakeIntensity"> the intensity of the shake in pixels </param>
+    /// <param name="token"> optionnal token to be able to cancel the shake</param>
+    /// <returns></returns>
     public static async Task Shake(Camera2D pCamera, float pShakeDuration, float pShakeIntensity, CancellationToken token = default)
     {
         if (pCamera == null) return;
@@ -66,23 +75,29 @@ public static class JuicinessUtils
         RandomNumberGenerator rng = new RandomNumberGenerator();
 
         rng.Randomize();
-        while (elapsed < shakeDuration && !token.IsCancellationRequested)
+        try
         {
-            elapsed += iDelta;
+            while (elapsed < shakeDuration && !token.IsCancellationRequested)
+            {
+                elapsed += iDelta;
 
-            float fadeOut = 1f - ((float)elapsed / shakeDuration);
-            float currentIntensity = pShakeIntensity * fadeOut;
+                float fadeOut = 1f - ((float)elapsed / shakeDuration);
+                float currentIntensity = pShakeIntensity * fadeOut;
 
-            float offsetX = rng.RandfRange(-1f, 1f) * currentIntensity;
-            float offsetY = rng.RandfRange(-1f, 1f) * currentIntensity;
+                float offsetX = rng.RandfRange(-1f, 1f) * currentIntensity;
+                float offsetY = rng.RandfRange(-1f, 1f) * currentIntensity;
 
-            pCamera.Offset = originalOffset + new Vector2(offsetX, offsetY);
+                pCamera.Offset = originalOffset + new Vector2(offsetX, offsetY);
 
-            await Task.Delay(iDelta);
-            GD.Print(elapsed);
+                await Task.Delay(iDelta);
+            }
+        }
+        finally
+        {
+            pCamera.Offset = originalOffset;
         }
 
-        pCamera.Offset = originalOffset;
+
     }
 
 }
