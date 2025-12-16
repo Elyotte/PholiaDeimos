@@ -210,8 +210,6 @@ public class Deimos : MouseOrKeyboardInputs
         cursorComponent.Visible = true;
         shootCooldown += fireRate;
 
-        await JuicinessUtils.SmoothedHitStop(.1f, .7f, .2f);
-
         SetModeNormal();
     }
 

@@ -23,7 +23,6 @@ public class CameraManager : Camera2D
         }
         startOffset = Offset;
         CallDeferred(nameof(Subscribe));
-        rng.Randomize();
     }
 
     void Subscribe()
@@ -31,6 +30,12 @@ public class CameraManager : Camera2D
         if (GameManager.Instance == null) return;
 
         GameManager.deimos.onResplitAnimFinished += ResplitShake;
+    }
+
+    void Unsubscribe()
+    {
+        if (GameManager.Instance == null) return;
+        GameManager.deimos.onResplitAnimFinished -= ResplitShake;
     }
 
     public override void _Process(float delta)
@@ -45,6 +50,6 @@ public class CameraManager : Camera2D
 
     async void ResplitShake()
     {
-        await Shake(1f, 50f);
+        await Shake(.2f, 20f);
     }
 }
