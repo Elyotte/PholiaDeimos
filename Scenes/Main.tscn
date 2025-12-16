@@ -142,3 +142,4 @@ script = ExtResource( 16 )
 [editable path="PholiaDeimos/Pholia"]
 [editable path="PholiaDeimos/Deimos"]
 [editable path="PholiaDeimos/CanvasLayer/LifeBar"]
+[editable path="PholiaDeimos/CanvasLayer/Portraits"]

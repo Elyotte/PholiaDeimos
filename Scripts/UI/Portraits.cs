@@ -16,6 +16,8 @@ public class Portraits : Control
     // States and events
     Action<float> state;
 
+    float offset = 100f;
+
     public override void _Ready()
     {
         deimos = GetNode<TextureRect>(deimosPortrait);
@@ -56,6 +58,8 @@ public class Portraits : Control
 
         pholia.Modulate = new Color(1f, 1f, 1f, alpha);
         deimos.Modulate = new Color(1f, 1f, 1f, alpha);
+
+        deimos.RectGlobalPosition = player.GlobalPosition;
 
         // show pholia & deimos
         pholia.Visible = Input.IsActionPressed(INPUTS.FIRE);

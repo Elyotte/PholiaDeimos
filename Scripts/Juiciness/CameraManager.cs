@@ -52,4 +52,10 @@ public class CameraManager : Camera2D
     {
         await Shake(.2f, 20f);
     }
+
+    public override void _ExitTree()
+    {
+        Unsubscribe();
+        base._ExitTree();
+    }
 }
