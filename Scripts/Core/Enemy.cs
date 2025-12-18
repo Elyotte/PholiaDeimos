@@ -3,7 +3,7 @@ using System;
 using System.Drawing.Text;
 using System.Threading.Tasks;
 
-public class Enemy : BorderCheck
+public class Enemy : ExternalVelocity
 {
     [Export] protected int m_ScoreOnDeath = 10;
     [Export] protected float m_MoveSpeed = 200f;

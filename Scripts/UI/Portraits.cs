@@ -4,9 +4,10 @@ using System;
 public class Portraits : Control
 {
     // Nodepaths and components
-    [Export] NodePath deimosPortrait = "DeimosPortrait", pholiaPortrait = "PholiaPortrait", playerPath;
+    [Export] NodePath deimosPortrait = "DeimosPortrait", pholiaPortrait = "PholiaPortrait", playerPath, pholiaPath;
     TextureRect deimos, pholia;
     Deimos player;
+    Pholia playerGhost;
 
     // Variables
     float elapsedTime = 0;
@@ -23,6 +24,7 @@ public class Portraits : Control
         deimos = GetNode<TextureRect>(deimosPortrait);
         pholia = GetNode<TextureRect>(pholiaPortrait);
         player = GetNode<Deimos>(playerPath);
+        playerGhost = GetNode<Pholia>(pholiaPath);
 
         player.onSplitAnimFinished += Activate;
         player.onResplit += Deactivate;
@@ -60,6 +62,7 @@ public class Portraits : Control
         deimos.Modulate = new Color(1f, 1f, 1f, alpha);
 
         deimos.RectGlobalPosition = player.GlobalPosition;
+        pholia.RectGlobalPosition = playerGhost.GlobalPosition;
 
         // show pholia & deimos
         pholia.Visible = Input.IsActionPressed(INPUTS.FIRE);

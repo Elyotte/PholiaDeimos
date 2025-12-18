@@ -49,6 +49,8 @@ public class Deimos : MouseOrKeyboardInputs
     [Export] float maxSplitDuration = 4f;
     float timeInSplit = 0f;
 
+    [Export] PackedScene explosionFab;
+
     public PlayerState playerState { get; private set; }
 
     public override void _Ready()
@@ -206,11 +208,22 @@ public class Deimos : MouseOrKeyboardInputs
 
         onResplitAnimFinished?.Invoke();
 
+        AddExplosion(GlobalPosition);
+
         pholia.Visible = false;
         cursorComponent.Visible = true;
         shootCooldown += fireRate;
 
         SetModeNormal();
+    }
+
+    private void AddExplosion(Vector2 pPositions, Node root = null)
+    {
+        if(root == null) root = GetTree().CurrentScene;
+
+        Explosion explosion = explosionFab.Instance() as Explosion;
+        root.AddChild(explosion);
+        explosion.GlobalPosition = pPositions;
     }
 
     private void Death()

@@ -44,6 +44,7 @@ characterToMonitorCollision = NodePath("../../../Deimos/Area2D")
 
 [node name="Portraits" parent="CanvasLayer" instance=ExtResource( 4 )]
 playerPath = NodePath("../../Deimos")
+pholiaPath = NodePath("../../Pholia")
 
 [editable path="Pholia"]
 [editable path="Deimos"]

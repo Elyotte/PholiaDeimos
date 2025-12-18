@@ -7,7 +7,6 @@ public class Bullet : Area2D
     [Export] Vector2 velocity;
     [Export] public Vector2 direction;
     [Export] int damage;
-    [Export] string GroupName;
 
     public override void _Ready()
     {
@@ -25,7 +24,7 @@ public class Bullet : Area2D
     public void SetDamage(int pDamage) { damage = pDamage; }
     public void SetSpeed(Vector2 pVelocity) { velocity = pVelocity; }  
 
-    protected void OnAreaEntered(Area2D pArea)
+    virtual protected void OnAreaEntered(Area2D pArea)
     {
         if (pArea is LifeComponentCollision pLife)
         {
@@ -34,7 +33,6 @@ public class Bullet : Area2D
                 // Ignore if deimos is in split state
                 return;
             }
-            Disconnect(SignalNames.AREA_ENTERED, this, nameof(OnAreaEntered));
             DestroyBullet();
         }
         else if (pArea is Shield)
@@ -46,6 +44,7 @@ public class Bullet : Area2D
     
     protected virtual void DestroyBullet()
     {
+        Disconnect(SignalNames.AREA_ENTERED, this, nameof(OnAreaEntered));
         QueueFree();
     }
 

@@ -10,6 +10,9 @@ public class Pholia : MouseOrKeyboardInputs
     Action<float> currentAction;
     public bool AskResplit { get; private set; } = false;
 
+    Vector2 mousePos;
+    float moveDeadZone = 5f;
+
     public override void _Ready()
     {
         collision = GetNode<CollisionShape2D>(hpCollisionPath);
@@ -26,6 +29,7 @@ public class Pholia : MouseOrKeyboardInputs
     {
         base._Process(delta);
         currentAction?.Invoke(delta);
+        mousePos = GetGlobalMousePosition();
     }
 
     private void SetModeDeactivated() { 
@@ -41,8 +45,11 @@ public class Pholia : MouseOrKeyboardInputs
     }
     private void Move(float delta)
     {
-        GlobalPosition += aimInputAxis.Normalized() * delta * moveSpeed;
-        AskResplit = Input.IsActionPressed(INPUTS.FIRE);
+        if (mousePos.DistanceTo(GlobalPosition) >= moveDeadZone)
+        {
+            GlobalPosition += aimInputAxis.Normalized() * delta * moveSpeed;
+            AskResplit = Input.IsActionPressed(INPUTS.FIRE);
+        }
     }
 
     public override void _ExitTree()

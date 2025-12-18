@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scripts/Core/LifeComponentCollision.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Gameplay/Deimos.cs" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Scripts/Juiciness/DeimosSpriteSelect.cs" type="Script" id=7]
 [ext_resource path="res://Assets/SimpleShapes/PholiaAndDeimos.png" type="Texture" id=8]
 [ext_resource path="res://Scripts/Juiciness/SpriteTweening.cs" type="Script" id=9]
+[ext_resource path="res://Prefabs/Bullets/Explosion.tscn" type="PackedScene" id=10]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 22.0227
@@ -19,6 +20,7 @@ ShootFactoryPath = NodePath("BulletFactory")
 cursorPath = NodePath("CursorComponent")
 lifePath = NodePath("Area2D")
 renderPath = NodePath("Sprite")
+explosionFab = ExtResource( 10 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 8 )

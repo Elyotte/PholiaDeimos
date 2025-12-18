@@ -1,0 +1,54 @@
+using Godot;
+using System;
+using System.Threading.Tasks;
+
+public class Explosion : Bullet
+{
+    [Export] float explosionStrength = 60f;
+    [Export] NodePath particlePath;
+    CPUParticles2D particle;
+    SceneTreeTimer timer;
+    float elapsed = 0f;
+
+    public override void _Ready()
+    {
+        particle = GetNode<CPUParticles2D>(particlePath);
+        base._Ready();
+        particle.Emitting = true;
+        timer = GetTree().CreateTimer(particle.Lifetime * .5f);
+        timer.Connect(SignalNames.TIMEOUT, this, nameof(Clear));
+    }
+
+    public override void _Process(float delta)
+    {
+        base._Process(delta);
+        elapsed += delta;
+
+        if (elapsed > particle.Lifetime)
+        {
+            QueueFree();
+        }
+    }
+
+    void Clear()
+    {
+        timer.Disconnect(SignalNames.TIMEOUT, this, nameof(Clear));
+        Disconnect(SignalNames.AREA_ENTERED, this, nameof(OnAreaEntered));
+    }
+
+    override protected void OnAreaEntered(Area2D area)
+    {
+        base.OnAreaEntered(area);
+        if (area.GetParent() is ExternalVelocity lEnemy)
+        {
+            Vector2 direction = lEnemy.GlobalPosition - GlobalPosition;
+            lEnemy.AddForce(direction.Normalized() * explosionStrength);
+        }
+    }
+
+    protected override void DestroyBullet()
+    {
+        
+    }
+
+}
