@@ -50,6 +50,7 @@ public class Deimos : MouseOrKeyboardInputs
     float timeInSplit = 0f;
 
     [Export] PackedScene explosionFab;
+    [Export] PackedScene splitExplosion;
 
     public PlayerState playerState { get; private set; }
 
@@ -141,6 +142,8 @@ public class Deimos : MouseOrKeyboardInputs
         Vector2 finalPosPholia = GlobalPosition + (aimInputAxis * 100f);
         float animationDuration = .3f;
 
+        AddExplosion(splitExplosion, GlobalPosition);
+
         SceneTreeTween tween = CreateTween();
         tween.TweenProperty(this, "global_position", finalPosDeimos, animationDuration)
             .SetTrans(Tween.TransitionType.Circ)
@@ -151,7 +154,6 @@ public class Deimos : MouseOrKeyboardInputs
 
         onSplit?.Invoke();
         await ToSignal(tween, SignalNames.TWEEN_FINISHED);
-
 
         CurrentState = SplittedMode;
         onSplitAnimFinished?.Invoke();
@@ -208,7 +210,7 @@ public class Deimos : MouseOrKeyboardInputs
 
         onResplitAnimFinished?.Invoke();
 
-        AddExplosion(GlobalPosition);
+        AddExplosion(explosionFab, GlobalPosition);
 
         pholia.Visible = false;
         cursorComponent.Visible = true;
@@ -217,11 +219,11 @@ public class Deimos : MouseOrKeyboardInputs
         SetModeNormal();
     }
 
-    private void AddExplosion(Vector2 pPositions, Node root = null)
+    private void AddExplosion(PackedScene explisionPrefab, Vector2 pPositions, Node root = null)
     {
         if(root == null) root = GetTree().CurrentScene;
 
-        Explosion explosion = explosionFab.Instance() as Explosion;
+        Explosion explosion = explisionPrefab.Instance() as Explosion;
         root.AddChild(explosion);
         explosion.GlobalPosition = pPositions;
     }

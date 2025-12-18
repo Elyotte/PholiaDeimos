@@ -9,8 +9,8 @@ radius = 108.559
 collision_layer = 4
 collision_mask = 2
 script = ExtResource( 1 )
-damage = 5
-explosionStrength = 200.0
+damage = 1
+explosionStrength = 150.0
 particlePath = NodePath("CPUParticles2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
