@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/Explosion.cs" type="Script" id=1]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 108.559
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0, 0.284916, 1 )
+colors = PoolColorArray( 0.644531, 1, 0.857327, 1, 0.378326, 0.988281, 0.802436, 1, 0.470009, 0.812988, 0.755713, 1 )
 
 [node name="Area2D" type="Area2D"]
 collision_layer = 4
@@ -18,12 +22,12 @@ shape = SubResource( 1 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 emitting = false
-amount = 372
-lifetime = 2.2
+amount = 200
+lifetime = 2.0
 one_shot = true
-speed_scale = 3.35
+speed_scale = 7.76
 explosiveness = 1.0
-randomness = 0.34
+randomness = 0.63
 lifetime_randomness = 0.11
 fixed_fps = 30
 direction = Vector2( 0, 0 )
@@ -35,3 +39,14 @@ angular_velocity = 343.49
 linear_accel = 9.17
 linear_accel_random = 0.3
 radial_accel = 0.15
+tangential_accel = 99.53
+tangential_accel_random = 1.0
+angle = 52.9
+angle_random = 1.0
+scale_amount = 7.0
+scale_amount_random = 0.83
+color_ramp = SubResource( 2 )
+hue_variation = 0.15
+hue_variation_random = 0.74
+anim_speed = 20.88
+anim_speed_random = 0.51
