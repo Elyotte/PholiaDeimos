@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=2]
+
+[sub_resource type="Curve" id=2]
+min_value = -360.0
+max_value = 360.0
+_data = [ Vector2( 0, 360 ), 0.0, 0.0, 0, 0, Vector2( 1, 76.9091 ), -387.84, 0.0, 0, 0 ]
+
+[sub_resource type="Curve" id=3]
+max_value = 20.0
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.0742574, 18.5227 ), 1.46519, 39.2363, 0, 0, Vector2( 0.183168, 0 ), 97.9394, 97.9394, 0, 0, Vector2( 0.217822, 18.7045 ), -38.8877, 3.01043, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0, 0.184358, 1 )
+colors = PoolColorArray( 0.614258, 0, 1, 1, 0.242188, 1, 0.926735, 1, 1, 1, 1, 1 )
+
+[node name="CPUParticles2D" type="CPUParticles2D"]
+emitting = false
+amount = 200
+lifetime = 4.5
+one_shot = true
+speed_scale = 3.35
+explosiveness = 1.0
+randomness = 0.34
+lifetime_randomness = 0.11
+fixed_fps = 30
+direction = Vector2( 0, 0 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 220.19
+initial_velocity_random = 0.29
+angular_velocity = 39.63
+angular_velocity_random = 0.6
+linear_accel = 9.17
+linear_accel_random = 0.3
+radial_accel = 0.15
+damping = 74.31
+damping_random = 1.0
+angle_random = 0.26
+angle_curve = SubResource( 2 )
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 3 )
+color_ramp = SubResource( 4 )
+hue_variation = 0.07
+hue_variation_random = 0.47
