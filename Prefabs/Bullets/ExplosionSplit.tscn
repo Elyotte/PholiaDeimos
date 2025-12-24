@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/Explosion.cs" type="Script" id=1]
 
@@ -7,6 +7,14 @@ radius = 108.559
 
 [sub_resource type="Curve" id=6]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.049505, 1 ), 0.907748, 0.907748, 0, 0, Vector2( 1, 0 ), 0.255576, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=12]
+offsets = PoolRealArray( 0, 0.301527, 1 )
+colors = PoolColorArray( 0.441406, 0.725067, 1, 1, 0.338669, 0.549532, 0.753906, 1, 0, 0, 0, 1 )
+
+[sub_resource type="Gradient" id=13]
+offsets = PoolRealArray( 0, 0.51145, 0.996183, 1 )
+colors = PoolColorArray( 0.721569, 1, 0.988235, 1, 0.721569, 1, 0.988235, 1, 0.186581, 0.152941, 0.223529, 1, 1, 1, 1, 0 )
 
 [sub_resource type="CanvasItemMaterial" id=7]
 particles_animation = true
@@ -26,8 +34,9 @@ _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.430693, 1 ), 0.0, 0.0, 0, 
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -4.57561, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=11]
-offsets = PoolRealArray( 0, 0.284916, 1 )
-colors = PoolColorArray( 0.644531, 1, 0.857327, 1, 0.378326, 0.988281, 0.802436, 1, 0.470009, 0.812988, 0.755713, 1 )
+interpolation_mode = 1
+offsets = PoolRealArray( 0, 0.198473, 1 )
+colors = PoolColorArray( 0.644531, 1, 0.857327, 1, 0.378326, 0.988281, 0.802436, 1, 0.470588, 0.811765, 0.756863, 0 )
 
 [node name="Area2D" type="Area2D"]
 collision_layer = 4
@@ -43,6 +52,7 @@ shape = SubResource( 1 )
 
 [node name="CPUParticles2D3" type="CPUParticles2D" parent="."]
 emitting = false
+lifetime = 0.7
 one_shot = true
 speed_scale = 3.0
 explosiveness = 0.86
@@ -58,14 +68,14 @@ initial_velocity_random = 0.3
 scale_amount = 38.19
 scale_amount_random = 0.14
 scale_amount_curve = SubResource( 6 )
-color = Color( 1, 0.596078, 0.317647, 1 )
+color_ramp = SubResource( 12 )
 
 [node name="CPUParticles2D4" type="CPUParticles2D" parent="."]
 emitting = false
 amount = 16
-lifetime = 2.0
+lifetime = 0.6
 one_shot = true
-speed_scale = 3.0
+speed_scale = 2.0
 explosiveness = 0.86
 randomness = 0.46
 lifetime_randomness = 0.16
@@ -80,6 +90,7 @@ scale_amount = 20.0
 scale_amount_random = 0.14
 scale_amount_curve = SubResource( 6 )
 color = Color( 0.721569, 1, 0.988235, 1 )
+color_ramp = SubResource( 13 )
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="."]
 material = SubResource( 7 )
@@ -114,7 +125,7 @@ scale_amount = 15.0
 scale_amount_random = 0.83
 scale_amount_curve = SubResource( 10 )
 color_ramp = SubResource( 11 )
-hue_variation = 0.15
-hue_variation_random = 0.74
+hue_variation = -0.23
+hue_variation_random = 0.7
 anim_speed = 20.88
 anim_speed_random = 0.51
