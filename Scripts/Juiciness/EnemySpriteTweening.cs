@@ -11,9 +11,9 @@ public class EnemySpriteTweening : SpriteTweening
         defaultScale = m_sprite.Scale;
     }
 
-    public override void DamageAnimation()
+    public override void DamageAnimation(DamageInfo pDamage)
     {
-        base.DamageAnimation();
+        base.DamageAnimation(pDamage);
         SceneTreeTween scaleTween = GetTree().CreateTween();
         Vector2 baseScale = defaultScale;
         float scaleFactor = 1.5f;

@@ -18,7 +18,7 @@ public class LifeComponentCollision  : Area2D
     public int currentLife { get; private set; }
     public event Action onNoMoreHealth;
     public event Action<int> onHealthChanged; // args is new health
-    public event Action onDamage;
+    public event Action<DamageInfo> onDamage;
     public event Action onHeal;
 
     public override void _Ready()
@@ -30,17 +30,8 @@ public class LifeComponentCollision  : Area2D
 
     protected virtual void OnAreaEntered(Area2D area)
     {
-        if(area is Bullet pBullet)
-        {
-            if (GetParent() is Deimos lDeimos && lDeimos.playerState == PlayerState.Splitted)
-            {
-                 
-            }
-            else
-                Damage(pBullet.GetDamage());
-        }
         // Happen when two life component collides
-        else if (area is LifeComponentCollision other)
+        if (area is LifeComponentCollision other)
         {
             // Deomos is damaged by the enemies he touch in normal state only
             if (other.GetParent() is Enemy && GetParent() is Deimos lDeimos)
@@ -48,9 +39,9 @@ public class LifeComponentCollision  : Area2D
                 Damage(1);
             }
             // Pholia damage the enemies she touch
-            else if (other.GetParent() is Enemy && GetParent() is Pholia)
+            else if (other.GetParent() is Pholia && GetParent() is Enemy)
             {
-                other.Damage(1);
+                Damage(1);
             }
         }
         else if (area is Collectible lCollectible)
@@ -67,12 +58,17 @@ public class LifeComponentCollision  : Area2D
         IsAlive();
     }
 
+    public virtual void Damage(DamageInfo pInfo)
+    {
+        currentLife -= pInfo.amount;
+        onHealthChanged?.Invoke(currentLife);
+        onDamage?.Invoke(pInfo);
+        IsAlive();
+    }
+
     public virtual void Damage(int pAmount)
     {
-        currentLife -= pAmount;
-        onHealthChanged?.Invoke(currentLife);
-        onDamage?.Invoke();
-        IsAlive();
+        Damage(new DamageInfo(pAmount, Vector2.Zero));
     }
 
     private bool IsAlive()
@@ -100,4 +96,16 @@ public class LifeComponentCollision  : Area2D
         DisconnectCollisions();
         base._ExitTree();
     }
+}
+
+public struct DamageInfo
+{
+    public DamageInfo(int amount, Vector2 velocity)
+    {
+        this.amount = amount;
+        this.bulletVelocity = velocity;
+    }
+
+    public int amount;
+    public Vector2 bulletVelocity;
 }

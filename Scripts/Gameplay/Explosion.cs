@@ -49,10 +49,14 @@ public class Explosion : Bullet
     override protected void OnAreaEntered(Area2D area)
     {
         base.OnAreaEntered(area);
-        if (area.GetParent() is ExternalVelocity lEnemy)
+        if (area is LifeComponentCollision lLife)
         {
-            Vector2 direction = lEnemy.GlobalPosition - GlobalPosition;
-            lEnemy.AddForce(direction.Normalized() * explosionStrength);
+            if (area.GetParent() is Enemy lEnemy)
+            {
+                Vector2 direction = lEnemy.GlobalPosition - GlobalPosition;
+                lEnemy.AddForce(direction.Normalized() * explosionStrength);
+                lLife.Damage(new DamageInfo(damage, direction.Normalized()));
+            }
         }
     }
 

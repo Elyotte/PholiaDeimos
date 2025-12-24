@@ -4,10 +4,11 @@ using System.Data;
 
 public class GameManager : Node2D {
 
-    [Export] NodePath deimosPath, bulletContainerPath, musicPath;
+    [Export] NodePath deimosPath, bulletContainerPath, musicPath, poolPth;
     public static Node2D bulletContainer => Instance?._BulletContainer;
     public static Deimos deimos => Instance?._Deimos;
-    
+
+    public FXPool pool { get; private set; }
 
     private Node2D _BulletContainer;
     private Deimos _Deimos;
@@ -39,6 +40,7 @@ public class GameManager : Node2D {
             _musicPlayer = GetNode<musicPlayer>(musicPath);
             _Deimos = GetNode<Deimos>(deimosPath);
             _BulletContainer = GetNode<Node2D>(bulletContainerPath);
+            pool = GetNode<FXPool>(poolPth);
             onResumeByButton = ResumeGameByButton;
         }
         else CallDeferred(nameof(Clear));
