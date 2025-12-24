@@ -5,8 +5,7 @@ using System.Drawing.Design;
 public class Bullet : Area2D
 {
     [Export] Vector2 velocity;
-    [Export] public Vector2 direction;
-    [Export] int damage;
+    [Export] protected int damage;
 
     public override void _Ready()
     {
@@ -21,6 +20,7 @@ public class Bullet : Area2D
     }
 
     public int GetDamage() => damage;
+    public Vector2 GetDirection() => velocity;
     public void SetDamage(int pDamage) { damage = pDamage; }
     public void SetSpeed(Vector2 pVelocity) { velocity = pVelocity; }  
 
@@ -28,11 +28,13 @@ public class Bullet : Area2D
     {
         if (pArea is LifeComponentCollision pLife)
         {
-            if (pLife.GetParent() is Deimos lDeimos && lDeimos.playerState == PlayerState.Splitted)
+            if (pLife.GetParent() is Pholia)
             {
-                // Ignore if deimos is in split state
+                // Ignore if pholia is in split state
                 return;
             }
+            pLife.Damage(new DamageInfo(damage, velocity));
+            GD.Print("Damage from bullet");
             DestroyBullet();
         }
         else if (pArea is Shield)

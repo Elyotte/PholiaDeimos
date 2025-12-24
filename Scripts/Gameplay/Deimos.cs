@@ -199,10 +199,10 @@ public class Deimos : MouseOrKeyboardInputs
         SceneTreeTween tween = CreateTween();
         tween.TweenProperty(this, "global_position", middle, timeToMerge)
             .SetTrans(Tween.TransitionType.Circ)
-            .SetEase(Tween.EaseType.Out);
+            .SetEase(Tween.EaseType.In);
         tween.Parallel().TweenProperty(pholia, "global_position", middle, timeToMerge)
             .SetTrans(Tween.TransitionType.Circ)
-            .SetEase(Tween.EaseType.Out);
+            .SetEase(Tween.EaseType.In);
 
         tween.Play();
         

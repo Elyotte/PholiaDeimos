@@ -1,9 +1,44 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scripts/Gameplay/Explosion.cs" type="Script" id=1]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 108.559
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.049505, 1 ), 0.907748, 0.907748, 0, 0, Vector2( 1, 0 ), 0.255576, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=10]
+offsets = PoolRealArray( 0, 0.118321, 1 )
+colors = PoolColorArray( 0.721569, 1, 0.988235, 1, 0.721569, 1, 0.988235, 0.866412, 0.721569, 1, 0.988235, 0 )
+
+[sub_resource type="CanvasItemMaterial" id=7]
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id=6]
+min_value = -360.0
+max_value = 360.0
+_data = [ Vector2( 0, -360 ), 0.0, 0.0, 0, 0, Vector2( 0.316832, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.356436, 360 ), 0.0, 0.0, 0, 0, Vector2( 0.707921, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.430693, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.579208, 0 ), -3.22457, 0.0, 0, 0 ]
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -4.57561, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0, 0.717557, 0.744275 )
+colors = PoolColorArray( 0.644531, 1, 0.857327, 1, 0.378326, 0.988281, 0.802436, 1, 0.470588, 0.811765, 0.756863, 0 )
+
+[sub_resource type="Curve" id=8]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.049505, 1 ), 0.907748, 0.907748, 0, 0, Vector2( 1, 0 ), 0.255576, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=9]
+offsets = PoolRealArray( 0, 0.301527, 1 )
+colors = PoolColorArray( 0.441406, 0.725067, 1, 1, 0.338669, 0.549532, 0.753906, 1, 0, 0, 0, 1 )
 
 [node name="Area2D" type="Area2D"]
 collision_layer = 4
@@ -12,26 +47,87 @@ script = ExtResource( 1 )
 damage = 5
 explosionStrength = 200.0
 particlePath = NodePath("CPUParticles2D")
+secondaryParticlesPath = [ NodePath("CPUParticles2D4"), NodePath("CPUParticles2D3") ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+[node name="CPUParticles2D3" type="CPUParticles2D" parent="."]
 emitting = false
-amount = 372
-lifetime = 2.2
+amount = 16
+lifetime = 0.7
 one_shot = true
-speed_scale = 3.35
+speed_scale = 2.0
+explosiveness = 0.86
+randomness = 0.46
+lifetime_randomness = 0.16
+emission_shape = 1
+emission_sphere_radius = 42.21
+direction = Vector2( 0, 0 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 300.0
+initial_velocity_random = 0.3
+scale_amount = 20.0
+scale_amount_random = 0.14
+scale_amount_curve = SubResource( 4 )
+color = Color( 0.721569, 1, 0.988235, 1 )
+color_ramp = SubResource( 10 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+material = SubResource( 7 )
+emitting = false
+amount = 50
+lifetime = 2.0
+one_shot = true
+speed_scale = 3.0
 explosiveness = 1.0
-randomness = 0.34
+randomness = 0.63
 lifetime_randomness = 0.11
 fixed_fps = 30
 direction = Vector2( 0, 0 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
-initial_velocity = 73.4
-initial_velocity_random = 0.29
-angular_velocity = 343.49
-linear_accel = 9.17
-linear_accel_random = 0.3
-radial_accel = 0.15
+initial_velocity = 500.0
+initial_velocity_random = 0.6
+angular_velocity = 26.42
+angular_velocity_random = 0.84
+angular_velocity_curve = SubResource( 6 )
+orbit_velocity_curve = SubResource( 5 )
+linear_accel = 34.86
+linear_accel_random = 0.28
+radial_accel = -12.69
+tangential_accel = 99.53
+tangential_accel_random = 1.0
+damping = 100.0
+damping_random = 0.51
+angle = -92.4
+angle_random = 1.0
+scale_amount = 15.0
+scale_amount_random = 0.83
+scale_amount_curve = SubResource( 3 )
+color_ramp = SubResource( 2 )
+hue_variation = 0.15
+hue_variation_random = 0.74
+anim_speed = 20.88
+anim_speed_random = 0.51
+
+[node name="CPUParticles2D4" type="CPUParticles2D" parent="."]
+emitting = false
+lifetime = 0.7
+one_shot = true
+speed_scale = 3.0
+explosiveness = 0.86
+randomness = 0.46
+lifetime_randomness = 0.16
+emission_shape = 1
+emission_sphere_radius = 42.21
+direction = Vector2( 0, 0 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 400.0
+initial_velocity_random = 0.3
+scale_amount = 38.19
+scale_amount_random = 0.14
+scale_amount_curve = SubResource( 8 )
+color_ramp = SubResource( 9 )

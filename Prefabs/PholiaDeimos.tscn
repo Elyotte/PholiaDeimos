@@ -1,8 +1,5 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Assets/SpriteSheets/Hands.tres" type="SpriteFrames" id=1]
-[ext_resource path="res://Scripts/HandsAnimation.cs" type="Script" id=2]
-[ext_resource path="res://Sounds/SFX/CLAP.ogg" type="AudioStream" id=3]
 [ext_resource path="res://Prefabs/UI/Portrait.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Prefabs/Players/Pholia.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Prefabs/Players/Deimos.tscn" type="PackedScene" id=6]
@@ -21,19 +18,8 @@ lifeComponentToApplyDamagePath = NodePath("../../Deimos/Area2D")
 
 [node name="Deimos" parent="." instance=ExtResource( 6 )]
 position = Vector2( 308, 410 )
+distanceToMerge = 500.0
 pholiaPath = NodePath("../Pholia")
-
-[node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
-position = Vector2( 308, 410 )
-scale = Vector2( 0.4, 0.4 )
-frames = ExtResource( 1 )
-frame = 8
-script = ExtResource( 2 )
-deimos = NodePath("../Deimos")
-sfxsoundsource = NodePath("AudioStreamPlayer")
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="AnimatedSprite2"]
-stream = ExtResource( 3 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

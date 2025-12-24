@@ -50,7 +50,7 @@ public class CameraManager : Camera2D
 
     async void ResplitShake()
     {
-        await Shake(.2f, 20f);
+        await Shake(.3f, 20f);
     }
 
     public override void _ExitTree()

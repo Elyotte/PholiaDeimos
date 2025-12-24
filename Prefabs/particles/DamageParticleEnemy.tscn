@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="Curve" id=1]
+max_value = 5.0
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.077193, 4.86932 ), 3.63636, 3.63636, 0, 0, Vector2( 0.105263, 1.5 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -7.28693, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 0, 1, 0.131428, 1, 0.0406284, 0.611816, 0.138148, 1 )
+
+[node name="DamageParticleEnemy" type="CPUParticles2D"]
+emitting = false
+one_shot = true
+speed_scale = 2.0
+explosiveness = 0.92
+local_coords = false
+emission_shape = 1
+emission_sphere_radius = 25.93
+direction = Vector2( 20, -20 )
+spread = 33.0
+gravity = Vector2( 0, 80 )
+initial_velocity = 453.34
+initial_velocity_random = 0.81
+angular_velocity = 500.0
+angular_velocity_random = 0.51
+linear_accel = -100.0
+linear_accel_random = 0.47
+scale_amount = 6.0
+scale_amount_random = 0.74
+scale_amount_curve = SubResource( 1 )
+color = Color( 0.027451, 0.713726, 0.117647, 1 )
+color_ramp = SubResource( 2 )

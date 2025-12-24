@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 public class Explosion : Bullet
@@ -10,11 +10,21 @@ public class Explosion : Bullet
     SceneTreeTimer timer;
     float elapsed = 0f;
 
+    [Export] List<NodePath> secondaryParticlesPath = new List<NodePath>();
+
     public override void _Ready()
     {
         particle = GetNode<CPUParticles2D>(particlePath);
         base._Ready();
         particle.Emitting = true;
+
+        int length = secondaryParticlesPath.Count;
+        for (int i = 0; i <length; i++)
+        {
+            GetNode<CPUParticles2D>(secondaryParticlesPath[i]).Emitting = true;
+
+        }
+
         timer = GetTree().CreateTimer(particle.Lifetime * .5f);
         timer.Connect(SignalNames.TIMEOUT, this, nameof(Clear));
     }
@@ -39,10 +49,14 @@ public class Explosion : Bullet
     override protected void OnAreaEntered(Area2D area)
     {
         base.OnAreaEntered(area);
-        if (area.GetParent() is ExternalVelocity lEnemy)
+        if (area is LifeComponentCollision lLife)
         {
-            Vector2 direction = lEnemy.GlobalPosition - GlobalPosition;
-            lEnemy.AddForce(direction.Normalized() * explosionStrength);
+            if (area.GetParent() is Enemy lEnemy)
+            {
+                Vector2 direction = lEnemy.GlobalPosition - GlobalPosition;
+                lEnemy.AddForce(direction.Normalized() * explosionStrength);
+                lLife.Damage(new DamageInfo(damage, direction));
+            }
         }
     }
 

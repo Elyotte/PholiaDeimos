@@ -34,7 +34,7 @@ public class SpriteTweening : Node
 
     }
 
-    public virtual void DamageAnimation()
+    public virtual void DamageAnimation(DamageInfo pDamage)
     {
         SceneTreeTween damageTween = CreateTween();
         float lToRedTime = .2f;
