@@ -55,7 +55,7 @@ public class Explosion : Bullet
             {
                 Vector2 direction = lEnemy.GlobalPosition - GlobalPosition;
                 lEnemy.AddForce(direction.Normalized() * explosionStrength);
-                lLife.Damage(new DamageInfo(damage, direction.Normalized()));
+                lLife.Damage(new DamageInfo(damage, direction));
             }
         }
     }
